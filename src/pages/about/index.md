@@ -8,7 +8,7 @@ title:
 I live in Korea, Seoul and work on data processing department.  
 I am interested in React.js, Graphql, kubernetes
 
-Here are my beta and experimental sites.
+Here are my beta and test sites.
 
 Enjoy my sites and feel free to comment.
 

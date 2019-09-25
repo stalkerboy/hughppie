@@ -3,15 +3,15 @@ import PropTypes from "prop-types";
 import { Link, graphql } from "gatsby";
 
 import Layout from "../components/Layout";
-import BlogRoll from "../components/BlogRoll";
+import BetaSiteRoll from "../components/BetaSiteRoll";
+import TestSiteRoll from "../components/TestSiteRoll";
 
 export const IndexPageTemplate = ({
   image,
   title,
   heading,
   subheading,
-  mainpitch,
-  description
+  mainpitch
 }) => (
   <div>
     <div
@@ -81,16 +81,24 @@ export const IndexPageTemplate = ({
                     <h3 className="has-text-weight-semibold is-size-2">
                       {heading}
                     </h3>
-                    <p>{description}</p>
                   </div>
                 </div>
                 <div className="column is-12">
                   <h3 className="has-text-weight-semibold is-size-2">
-                    Latest stories
+                    BetaSite
                   </h3>
-                  <BlogRoll />
+                  <BetaSiteRoll />
                   <div className="column is-12 has-text-centered">
-                    <Link className="btn" to="/blog">
+                    <Link className="btn" to="/betasite">
+                      Read more
+                    </Link>
+                  </div>
+                  <h3 className="has-text-weight-semibold is-size-2">
+                    TestSite
+                  </h3>
+                  <TestSiteRoll />
+                  <div className="column is-12 has-text-centered">
+                    <Link className="btn" to="/testsite">
                       Read more
                     </Link>
                   </div>

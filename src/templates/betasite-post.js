@@ -1,24 +1,24 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { kebabCase } from 'lodash'
-import Helmet from 'react-helmet'
-import { graphql, Link } from 'gatsby'
-import Layout from '../components/Layout'
-import Content, { HTMLContent } from '../components/Content'
+import React from "react";
+import PropTypes from "prop-types";
+import { kebabCase } from "lodash";
+import Helmet from "react-helmet";
+import { graphql, Link } from "gatsby";
+import Layout from "../components/Layout";
+import Content, { HTMLContent } from "../components/Content";
 
-export const BlogPostTemplate = ({
+export const BetaSitePostTemplate = ({
   content,
   contentComponent,
   description,
   tags,
   title,
-  helmet,
+  helmet
 }) => {
-  const PostContent = contentComponent || Content
+  const PostContent = contentComponent || Content;
 
   return (
     <section className="section">
-      {helmet || ''}
+      {helmet || ""}
       <div className="container content">
         <div className="columns">
           <div className="column is-10 is-offset-1">
@@ -43,28 +43,28 @@ export const BlogPostTemplate = ({
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-BlogPostTemplate.propTypes = {
+BetaSitePostTemplate.propTypes = {
   content: PropTypes.node.isRequired,
   contentComponent: PropTypes.func,
   description: PropTypes.string,
   title: PropTypes.string,
-  helmet: PropTypes.object,
-}
+  helmet: PropTypes.object
+};
 
-const BlogPost = ({ data }) => {
-  const { markdownRemark: post } = data
+const BetaSitePost = ({ data }) => {
+  const { markdownRemark: post } = data;
 
   return (
     <Layout>
-      <BlogPostTemplate
+      <BetaSitePostTemplate
         content={post.html}
         contentComponent={HTMLContent}
         description={post.frontmatter.description}
         helmet={
-          <Helmet titleTemplate="%s | Blog">
+          <Helmet titleTemplate="%s | BetaSite">
             <title>{`${post.frontmatter.title}`}</title>
             <meta
               name="description"
@@ -76,19 +76,19 @@ const BlogPost = ({ data }) => {
         title={post.frontmatter.title}
       />
     </Layout>
-  )
-}
+  );
+};
 
-BlogPost.propTypes = {
+BetaSitePost.propTypes = {
   data: PropTypes.shape({
-    markdownRemark: PropTypes.object,
-  }),
-}
+    markdownRemark: PropTypes.object
+  })
+};
 
-export default BlogPost
+export default BetaSitePost;
 
 export const pageQuery = graphql`
-  query BlogPostByID($id: String!) {
+  query BetaSitePostByID($id: String!) {
     markdownRemark(id: { eq: $id }) {
       id
       html
@@ -100,4 +100,4 @@ export const pageQuery = graphql`
       }
     }
   }
-`
+`;
