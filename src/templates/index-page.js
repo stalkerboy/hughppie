@@ -6,6 +6,8 @@ import Layout from "../components/Layout";
 import BetaSiteRoll from "../components/BetaSiteRoll";
 import TestSiteRoll from "../components/TestSiteRoll";
 
+import About from "../components/About";
+
 export const IndexPageTemplate = ({
   image,
   title,
@@ -69,8 +71,11 @@ export const IndexPageTemplate = ({
             <div className="column is-10 is-offset-1">
               <div className="content">
                 <div className="content">
+                  <h1 className="has-text-weight-semibold is-size-2">
+                    {heading}
+                  </h1>
                   <div className="tile">
-                    <h1 className="title">{mainpitch.title}</h1>
+                    <h2 className="title">{mainpitch.title}</h2>
                   </div>
                   <div className="tile">
                     <h3 className="subtitle">{mainpitch.description}</h3>
@@ -78,9 +83,7 @@ export const IndexPageTemplate = ({
                 </div>
                 <div className="columns">
                   <div className="column is-12">
-                    <h3 className="has-text-weight-semibold is-size-2">
-                      {heading}
-                    </h3>
+                    <About />
                   </div>
                 </div>
                 <div className="column is-12">

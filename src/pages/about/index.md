@@ -1,10 +1,10 @@
 ---
 templateKey: 'about-page'
 path: /about
-title: 
+title: About Me
 ---
 ![hugh](/img/img1.jpg)
-### About me
+###  
 I live in Korea, Seoul and work on data processing department.  
 I am interested in React.js, Graphql, kubernetes
 
