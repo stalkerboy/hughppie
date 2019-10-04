@@ -24,7 +24,6 @@ export default class TestSiteIndexPage extends React.Component {
           >
             Test Site
           </h1>
-          <h4>- 3d - 채팅 - 성향테스트 - 달력 -</h4>
         </div>
         <section className="section">
           <div className="container">
