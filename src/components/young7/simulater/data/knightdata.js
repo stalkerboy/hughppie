@@ -48,5 +48,22 @@ export const KnightData = {
       { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
     ],
     sex: "male"
+  },
+  누르: {
+    name: "누르",
+
+    build: 11,
+    patrol: 12,
+    develop: 14,
+
+    clearPatrolCount: 0,
+    clearValue: [
+      { regionNo: 0, requiredFeeling: 20, addFeeling: 10 },
+      { regionNo: 0, requiredFeeling: 40, addFeeling: 10 },
+      { regionNo: 0, requiredFeeling: 60, addFeeling: 10 },
+      { regionNo: 0, requiredFeeling: 80, addFeeling: 10 },
+      { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
+    ],
+    sex: "female"
   }
 };
