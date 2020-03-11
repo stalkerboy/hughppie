@@ -1,13 +1,13 @@
 import React from "react";
 
 import { Container } from "@material-ui/core";
-import { ActionList } from "../../components/young7/actionlist";
+import { Simulater } from "../../components/young7";
 
-export default class Young7Simulater extends React.Component {
+export default class Young7 extends React.Component {
   render() {
     return (
       <Container maxWidth="lg">
-        <ActionList />
+        <Simulater />
       </Container>
     );
   }
