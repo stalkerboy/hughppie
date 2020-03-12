@@ -1,53 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container } from "@material-ui/core";
 import { ActionItem } from "./actionitem";
 import { ActionDay } from "./actionday";
 
-const initialActionState = {
-  regionNo: "",
-  knights: "",
-  type: "",
-  typeDesc: "",
-  target: ""
-};
-
-const actionReducer = (state, action) => {
-  switch (action.name) {
-    case "reset":
-      return initialActionState;
-    case "setRegionNo":
-      return { ...state, regionNo: action.regionNo };
-    case "setKnights":
-      return { ...state, knights: action.knights };
-    case "setType":
-      return { ...state, type: action.type };
-    case "setTypeDesc":
-      return { ...state, typeDesc: action.typeDesc };
-    case "setTaget":
-      return { ...state, target: action.target };
-    default: {
-      throw new Error(`unexpected action.type: ${action.type}`);
-    }
-  }
-};
-
 export const Simulater = () => {
-  const [action, dispatchAction] = useReducer(actionReducer, initialActionState);
-  //   const [curAction, setCurAction] = useState({});
+  const [curAction, setCurAction] = useState({});
   const [actions, setActions] = useState([]);
-  const [allActions, setAllActions] = useState([]);
+  // const [allActions, setAllActions] = useState([]);
 
   const addAction = action => {
+    action.key = 0;
+    let max = 0;
+    if (actions.length > 0) max = actions.reduce((acc, action) => (acc >= action.key ? acc : action.key), 0) + 1;
+
+    console.log("action.key:", max);
+    console.log("actions:", actions);
+    if (actions.filter(acc => acc.key === max).length) return;
+    else action.key = max;
     setActions([...actions, action]);
   };
 
-  useEffect(() => {
-    console.log(actions);
-  }, actions);
+  // useEffect(() => {
+  //   console.log(actions);
+  // }, actions);
 
   return (
     <Container maxWidth="lg">
-      <ActionItem action={action} dispatchAction={dispatchAction} addAction={addAction} />
+      <ActionItem curAction={curAction} setCurAction={setCurAction} addAction={addAction} />
       <br />
       <ActionDay actions={actions} setActions={setActions} />
     </Container>

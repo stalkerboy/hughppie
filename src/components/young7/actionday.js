@@ -1,20 +1,17 @@
-import React, { useEffect } from "react";
-import { Paper } from "@material-ui/core";
-import { useState } from "react";
+import React from "react";
+import { Paper, Chip } from "@material-ui/core";
 
 export const ActionDay = props => {
   const { actions, setActions } = props;
-
-  // useEffect(() => {
-  //   setDayActions(actions);
-  // }, [actions]);
-
-  const [dayActions, setDayActions] = useState([]);
+  const handleDelete = acToDelete => () => {
+    setActions(actions => actions.filter(ac => ac.key !== acToDelete.key));
+  };
 
   return (
     <Paper>
-      actions <br />
-      {actions}
+      {actions.map(ac => {
+        return <Chip label={ac.type} key={ac.key} onDelete={handleDelete(ac)} />;
+      })}
     </Paper>
   );
 };
