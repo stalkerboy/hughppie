@@ -1,5 +1,14 @@
 import React, { useReducer } from "react";
-import { Paper, TextField, Button } from "@material-ui/core";
+import { Select, MenuItem, Container, FormControl, TextField, InputLabel, Chip, Paper, Button } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
+import { makeStyles } from "@material-ui/core/styles";
+import { RegionData, KnightData } from "./simulater";
+
+const useStyles = makeStyles(theme => ({
+  formControl: {
+    margin: theme.spacing(1)
+  }
+}));
 
 const initialActionState = {
   regionNo: "",
