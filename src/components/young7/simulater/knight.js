@@ -62,11 +62,10 @@ export class Knight {
   }
 
   printKnight() {
-    const str = `
-    name : ${this.name}   fatigue : ${this.fatigue}   actionCount : ${this.actionCount} 
-    build : ${this.build}   patrol : ${this.patrol}   develop : ${this.develop}     
-    feeling : ${this.feeling}  isClear : ${this.isClear}  clearPatrolCount : ${this.clearPatrolCount} 
-    `;
+    const str = `${this.name}   
+    피로도 : ${this.fatigue}   활동수 : ${this.actionCount} 
+    호감도 : ${this.feeling} ${this.isClear ? "공략완료" : ""}
+    공략순찰횟수 : ${this.clearPatrolCount} `;
     return str;
   }
 }

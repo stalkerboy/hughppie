@@ -1,8 +1,9 @@
 import React, { useReducer } from "react";
-import { Select, MenuItem, Container, FormControl, TextField, InputLabel, Chip, Paper, Button } from "@material-ui/core";
+import { Select, MenuItem, FormControl, TextField, InputLabel, Chip, Paper, Button } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
+import * as Icon from "@material-ui/icons";
+import { RegionData, KnightData, BuildingData } from "./simulater/data";
 import { makeStyles } from "@material-ui/core/styles";
-import { RegionData, KnightData } from "./simulater";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -12,7 +13,7 @@ const useStyles = makeStyles(theme => ({
 
 const initialActionState = {
   regionNo: "",
-  knights: "",
+  knights: [],
   type: "",
   typeDesc: "",
   target: ""
@@ -25,11 +26,12 @@ const actionReducer = (state, action) => {
     case "setRegionNo":
       return { ...state, regionNo: action.regionNo };
     case "setKnights":
+      if (action.knights.length > 3) return { ...state };
       return { ...state, knights: action.knights };
     case "setType":
-      return { ...state, type: action.type };
+      return { ...state, type: action.type, typeDesc: "", target: "" };
     case "setTypeDesc":
-      return { ...state, typeDesc: action.typeDesc };
+      return { ...state, typeDesc: action.typeDesc, target: "" };
     case "setTarget":
       return { ...state, target: action.target };
     default: {
@@ -37,19 +39,144 @@ const actionReducer = (state, action) => {
     }
   }
 };
+const typeList = { 전투: "fight", 순찰: "patrol", 건설: "build", 개발: "develop" };
+const typeDescList = {
+  fight: {},
+  patrol: { 일반: "normal", 신기사공략: "knight", 시나: "scena", 점수: "score" },
+  build: { science: [], spirit: [], information: [], other: [] },
+  develop: {}
+};
+
+const knightsNames = Object.keys(KnightData);
+const regionNames = RegionData.map(region => region.name);
+Object.keys(BuildingData).map(key => typeDescList.build[BuildingData[key].type].push(key));
 
 export const ActionItem = props => {
-  const [action, dispatchAction] = useReducer(actionReducer, initialActionState);
-  const { curAction, setCurAction, addAction } = props;
+  const classes = useStyles();
 
+  const [action, dispatchAction] = useReducer(actionReducer, initialActionState);
+  const { addAction } = props;
+
+  const onClickAdd = () => {
+    if (!action.type || (action.regionNo !== 0 && !action.regionNo) || !action.knights) {
+      return;
+    }
+    if (action.type === "build" && !action.typeDesc) return;
+    if (action.type === "patrol" && !action.typeDesc) return;
+    if (action.typeDesc === "knight" && !action.target) return;
+    addAction(action);
+  };
   return (
     <Paper>
-      <TextField id="outlined-regionNo" label="regionNo" variant="outlined" onChange={e => dispatchAction({ name: "setRegionNo", regionNo: e.target.value })} />
-      <TextField id="outlined-knights" label="knights" variant="outlined" onChange={e => dispatchAction({ name: "setKnights", knights: e.target.value })} />
-      <TextField id="outlined-type" label="type" variant="outlined" onChange={e => dispatchAction({ name: "setType", type: e.target.value })} />
-      <TextField id="outlined-typeDesc" label="typeDesc" variant="outlined" onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })} />
-      <TextField id="outlined-target" label="target" variant="outlined" onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })} />
-      <Button onClick={() => addAction(action)}>ADD</Button>
+      <FormControl variant="outlined" className={classes.formControl} style={{ width: 120 }}>
+        <InputLabel id="select-action-regionNo" style={{ background: "white" }}>
+          지역
+        </InputLabel>
+        <Select
+          labelId="select-action-regionNo"
+          id="regionNo"
+          value={action.regionNo}
+          onChange={e => dispatchAction({ name: "setRegionNo", regionNo: e.target.value })}
+        >
+          {regionNames.map((name, i) => (
+            <MenuItem key={i} value={i}>
+              {name}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+
+      <FormControl className={classes.formControl} style={{ width: 400 }}>
+        <Autocomplete
+          multiple
+          id="tags-outlined"
+          options={knightsNames}
+          getOptionLabel={option => option}
+          getOptionSelected={name => {
+            if (action.knights.length >= 3 || action.knights.includes(name)) return true;
+          }}
+          defaultValue={[]}
+          filterSelectedOptions
+          onChange={(_, value) => dispatchAction({ name: "setKnights", knights: value })}
+          renderTags={(value, getTagProps) =>
+            value
+              .filter((v, i) => i < 3)
+              .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
+          }
+          renderInput={params => <TextField {...params} variant="outlined" label="신기사" placeholder="신기사" />}
+        />
+      </FormControl>
+      <br />
+      <FormControl variant="outlined" className={classes.formControl} style={{ width: 120 }}>
+        <InputLabel id="select-action-type" style={{ background: "white" }}>
+          타입
+        </InputLabel>
+        <Select labelId="select-action-type" id="type" value={action.type} onChange={e => dispatchAction({ name: "setType", type: e.target.value })}>
+          {Object.keys(typeList).map(key => (
+            <MenuItem key={key} value={typeList[key]}>
+              {key}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+      <FormControl variant="outlined" className={classes.formControl} style={{ width: 192 }}>
+        <InputLabel id="select-action-typedesc" htmlFor="grouped-select" style={{ background: "white" }}>
+          타입 상세
+        </InputLabel>
+        <Select
+          native
+          labelId="select-action-typedesc"
+          id="typeDesc"
+          value={action.typeDesc}
+          onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })}
+        >
+          <option key={0} label={""}></option>
+          {action.type === "patrol"
+            ? Object.keys(typeDescList[action.type]).map((name, i) => (
+                <option key={i} value={typeDescList[action.type][name]}>
+                  {name}
+                </option>
+              ))
+            : action.type === "build"
+            ? Object.keys(typeDescList[action.type]).map(type => (
+                <optgroup key={type} label={type}>
+                  {typeDescList[action.type][type].map(name => (
+                    <option key={name} value={name}>
+                      {name}
+                    </option>
+                  ))}
+                </optgroup>
+              ))
+            : null}
+        </Select>
+      </FormControl>
+
+      <FormControl variant="outlined" className={classes.formControl} style={{ width: 192 }}>
+        <InputLabel id="select-action-target" style={{ background: "white" }}>
+          대상
+        </InputLabel>
+        <Select
+          labelId="select-action-target"
+          id="target"
+          value={action.target}
+          onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })}
+        >
+          {action.typeDesc === "knight"
+            ? action.knights.map(name => (
+                <MenuItem key={name} value={name}>
+                  {name}
+                </MenuItem>
+              ))
+            : null}
+        </Select>
+      </FormControl>
+
+      <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
+        <Button variant="outlined" color="primary" startIcon={<Icon.ControlPoint />} onClick={onClickAdd}>
+          더하기
+        </Button>
+      </FormControl>
+      <br />
     </Paper>
   );
 };

@@ -70,7 +70,9 @@ export class World {
             this.worldLimitBuilding[data.building.name]++;
           } else return false;
         } else if (data.building.limit.region) {
-          this.regions[action.regionNo].regionLimitBuilding[data.building.name] = this.regions[action.regionNo].regionLimitBuilding[data.building.name]
+          this.regions[action.regionNo].regionLimitBuilding[data.building.name] = this.regions[action.regionNo].regionLimitBuilding[
+            data.building.name
+          ]
             ? this.regions[action.regionNo].regionLimitBuilding[data.building.name]
             : 0;
           if (this.regions[action.regionNo].regionLimitBuilding[data.building.name] < data.building.limit.region) {
@@ -131,5 +133,15 @@ export class World {
 
   getInformation() {
     return this.regions.reduce((acc, region) => acc + region.information, 0);
+  }
+
+  getKnight() {
+    return Object.keys(this.knights)
+      .filter(name => this.knights[name].actionCount > 0)
+      .map(name => this.knights[name].printKnight());
+  }
+
+  getRegion() {
+    return this.regions.filter(region => region.isClear || region.fightCount > 0).map(region => region.printRegion());
   }
 }
