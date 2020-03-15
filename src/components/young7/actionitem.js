@@ -107,7 +107,7 @@ export const ActionItem = props => {
           />
         </FormControl>
       </div>
-      <FormControl variant="outlined" className={classes.formControl} style={{ width: 120 }}>
+      <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
         <InputLabel id="select-action-type" style={{ background: "white" }}>
           타입
         </InputLabel>
@@ -119,63 +119,75 @@ export const ActionItem = props => {
           ))}
         </Select>
       </FormControl>
-      <FormControl variant="outlined" className={classes.formControl} style={{ width: 192 }}>
-        <InputLabel id="select-action-typedesc" htmlFor="grouped-select" style={{ background: "white" }}>
-          타입 상세
-        </InputLabel>
-        <Select
-          native
-          labelId="select-action-typedesc"
-          id="typeDesc"
-          value={action.typeDesc}
-          onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })}
-        >
-          <option key={0} label={""}></option>
-          {action.type === "patrol"
-            ? Object.keys(typeDescList[action.type]).map((name, i) => (
-                <option key={i} value={typeDescList[action.type][name]}>
-                  {name}
-                </option>
-              ))
-            : action.type === "build"
-            ? Object.keys(typeDescList[action.type]).map(type => (
-                <optgroup key={type} label={type}>
-                  {typeDescList[action.type][type].map(name => (
-                    <option key={name} value={name}>
+      {action.type === "build" || action.type === "patrol" ? (
+        <div>
+          <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
+            <InputLabel id="select-action-typedesc" htmlFor="grouped-select" style={{ background: "white" }}>
+              타입 상세
+            </InputLabel>
+            <Select
+              native
+              labelId="select-action-typedesc"
+              id="typeDesc"
+              value={action.typeDesc}
+              onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })}
+            >
+              <option key={0} label={""}></option>
+              {action.type === "patrol"
+                ? Object.keys(typeDescList[action.type]).map((name, i) => (
+                    <option key={i} value={typeDescList[action.type][name]}>
                       {name}
                     </option>
-                  ))}
-                </optgroup>
-              ))
-            : null}
-        </Select>
-      </FormControl>
-
-      <FormControl variant="outlined" className={classes.formControl} style={{ width: 192 }}>
-        <InputLabel id="select-action-target" style={{ background: "white" }}>
-          대상
-        </InputLabel>
-        <Select
-          labelId="select-action-target"
-          id="target"
-          value={action.target}
-          onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })}
-        >
-          {action.typeDesc === "knight"
-            ? action.knights.map(name => (
-                <MenuItem key={name} value={name}>
-                  {name}
-                </MenuItem>
-              ))
-            : null}
-        </Select>
-      </FormControl>
-
-      <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
-        <Button variant="outlined" color="primary" startIcon={<Icon.ControlPoint />} onClick={onClickAdd}>
-          더하기
-        </Button>
-      </FormControl>
+                  ))
+                : action.type === "build"
+                ? Object.keys(typeDescList[action.type]).map(type => (
+                    <optgroup key={type} label={type}>
+                      {typeDescList[action.type][type].map(name => (
+                        <option key={name} value={name}>
+                          {name}
+                        </option>
+                      ))}
+                    </optgroup>
+                  ))
+                : null}
+            </Select>
+          </FormControl>
+          {action.typeDesc === "knight" ? (
+            <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
+              <InputLabel id="select-action-target" style={{ background: "white" }}>
+                대상
+              </InputLabel>
+              <Select
+                labelId="select-action-target"
+                id="target"
+                value={action.target}
+                onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })}
+              >
+                {action.typeDesc === "knight"
+                  ? action.knights.map(name => (
+                      <MenuItem key={name} value={name}>
+                        {name}
+                      </MenuItem>
+                    ))
+                  : null}
+              </Select>
+            </FormControl>
+          ) : null}
+        </div>
+      ) : null}
+      {action.regionNo > -1 &&
+      action.knights.length &&
+      action.type &&
+      (action.type === "fight" ||
+        action.type === "develop" ||
+        (action.type === "build" && action.typeDesc) ||
+        (action.type === "patrol" && (action.target || (action.typeDesc && action.typeDesc !== "knight")))) ? (
+        <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
+          <Button variant="outlined" color="primary" startIcon={<Icon.ControlPoint />} onClick={onClickAdd}>
+            더하기
+          </Button>
+        </FormControl>
+      ) : null}
       <br />
     </Paper>
   );

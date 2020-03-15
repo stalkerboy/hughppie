@@ -1,5 +1,5 @@
 import React from "react";
-import { FormControl, Card, Paper } from "@material-ui/core";
+import { FormControl, Card, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles(theme => ({
@@ -13,6 +13,9 @@ export const ActionResult = props => {
   const { curState } = props;
   return (
     <Card>
+      <Typography variant="h5" component="h2" style={{ margin: 10 }}>
+        {curState.day - 1} 일 {curState.hour ? curState.hour + "시간 경과" : null}
+      </Typography>
       <FormControl className={classes.formControl} style={{ display: "flex" }}>
         과학력 : {curState.science} &nbsp; 환력 : {curState.spirit} &nbsp; 정보력 : {curState.information}
       </FormControl>
@@ -51,6 +54,7 @@ export const ActionResult = props => {
           </FormControl>
         ))}
       </FormControl>
+      <br />
       <br />
     </Card>
   );

@@ -5,7 +5,8 @@ import { ActionDay } from "./actionday";
 import { ActionResult } from "./actionresult";
 import { World } from "./simulater/world";
 import lodash from "lodash";
-import { SaveLoadAction } from "./saveloadaction";
+// import { SaveLoadAction } from "./saveloadaction";
+import ConditionDialog from "./conditiondialog";
 
 export class Simulater extends React.Component {
   constructor(props) {
@@ -99,9 +100,15 @@ export class Simulater extends React.Component {
           {this.state.curState.information}
         </Typography>
         <ActionItem curAction={this.state.curAction} setCurAction={action => this.setState({ curAction: action })} addAction={this.addAction} />
-        <br />
+
         <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} />
-        <br />
+
+        {this.state.actions.length ? (
+          <Paper>
+            <ConditionDialog curWorld={this.curWorld} actions={this.state.actions} transact={this.transact} />{" "}
+          </Paper>
+        ) : null}
+
         <ActionResult curState={this.state.curState} />
         <br />
         {this.state.storeWorld.length ? "일차 되돌리기" : null}
@@ -110,8 +117,7 @@ export class Simulater extends React.Component {
             <Chip key={i} onClick={() => this.backDay(i - 1)} style={{ maxWidth: 80, justifyContent: "center", margin: 15 }} label={i + "일차"} />
           ))}
         </Paper>
-
-        <SaveLoadAction actions={this.state.allActions} loadActions={this.loadActions} />
+        {/* <SaveLoadAction actions={this.state.allActions} loadActions={this.loadActions} /> */}
       </Container>
     );
   }

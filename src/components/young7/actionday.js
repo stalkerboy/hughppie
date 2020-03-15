@@ -21,7 +21,7 @@ export const ActionDay = props => {
 
   const [ramenKnights, setRamenKnights] = useState([]);
 
-  return (
+  return actions.length ? (
     <Paper>
       <FormControl className={classes.formControl} style={{ display: "inline-block" }}>
         {actions.map(ac => {
@@ -74,34 +74,34 @@ export const ActionDay = props => {
         })}
       </FormControl>
       <br />
-      <br />
-
-      <FormControl className={classes.formControl} style={{ display: "flex" }}>
-        <Autocomplete
-          multiple
-          id="tags-outlined"
-          options={knightsNames}
-          getOptionLabel={option => option}
-          getOptionSelected={name => ramenKnights.length >= 3 || ramenKnights.includes(name)}
-          defaultValue={[]}
-          filterSelectedOptions
-          onChange={(_, value) => setRamenKnights(value)}
-          renderTags={(value, getTagProps) =>
-            value
-              .filter((_, i) => i < 3)
-              .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
-          }
-          renderInput={params => <TextField {...params} variant="outlined" label="라면가게" placeholder="라면가게" />}
-        />
-      </FormControl>
-      <FormControl className={classes.formControl} style={{ display: "flex" }}>
-        {actions.length === 12 ? (
-          <Button variant="outlined" color="primary" startIcon={<Icon.CheckCircle />} onClick={() => calcDay(actions, ramenKnights)}>
-            계산
-          </Button>
-        ) : null}
-        <br />
-      </FormControl>
+      {actions.length === 12 ? (
+        <div>
+          <FormControl className={classes.formControl} style={{ display: "flex" }}>
+            <Autocomplete
+              multiple
+              id="tags-outlined"
+              options={knightsNames}
+              getOptionLabel={option => option}
+              getOptionSelected={name => ramenKnights.length >= 3 || ramenKnights.includes(name)}
+              defaultValue={[]}
+              filterSelectedOptions
+              onChange={(_, value) => setRamenKnights(value)}
+              renderTags={(value, getTagProps) =>
+                value
+                  .filter((_, i) => i < 3)
+                  .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
+              }
+              renderInput={params => <TextField {...params} variant="outlined" label="라면가게" placeholder="라면가게" />}
+            />
+          </FormControl>
+          <FormControl className={classes.formControl} style={{ display: "flex" }}>
+            <Button variant="outlined" color="primary" startIcon={<Icon.CheckCircle />} onClick={() => calcDay(actions, ramenKnights)}>
+              계산
+            </Button>
+            <br />
+          </FormControl>
+        </div>
+      ) : null}
     </Paper>
-  );
+  ) : null;
 };
