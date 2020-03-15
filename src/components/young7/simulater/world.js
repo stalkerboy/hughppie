@@ -49,8 +49,11 @@ export class World {
         break;
       case "patrol":
         this.regions.map(region => {
-          const destroyBuilding = region.buildings.filter(building => building.buildDestroyPatrol);
-          if (destroyBuilding.length) region.destroyBuilding(destroyBuilding[0].name);
+          const destroyBuilding = region.buildings.filter(building => building.patrolDestroyPlan);
+          if (destroyBuilding.length) {
+            region.destroyBuilding(destroyBuilding[0].name);
+            action.knights.map(name => this.knights[name].doFireFestival());
+          }
           return destroyBuilding;
         });
         isVaild = this.regions[action.regionNo].patrol(data);

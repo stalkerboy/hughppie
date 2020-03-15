@@ -32,7 +32,7 @@ export const BuildingData = {
     limit: { world: 1 }
   },
   정보센터: { name: "정보센터", type: "information", requiredBuild: 22, requiredScience: 30, information: 30, limit: { world: 1 } },
-  불꽃축제: { name: "불꽃축제", type: "other", requiredBuild: 22, requiredScience: 30, fatigue: 25 },
+  불꽃축제: { name: "불꽃축제", type: "other", requiredBuild: 22, requiredScience: 30, fatigue: 25, patrolDestroyPlan: true },
   노래방: { name: "노래방", type: "other", requiredBuild: 22, requiredScience: 30, malefeelingPlus: 1 },
   쇼핑센터: { name: "쇼핑센터", type: "other", requiredBuild: 22, requiredScience: 30, femalefeelingPlus: 1 },
   지하철역: { name: "지하철역", type: "other", requiredBuild: 10, requiredScience: 15, patrolPlus: 3 },

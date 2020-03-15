@@ -26,6 +26,14 @@ export class Knight {
       this.fatigue = 100;
     }
   }
+
+  doFireFestival() {
+    this.fatigue += 30;
+    if (this.fatigue > 100) {
+      this.fatigue = 100;
+    }
+  }
+
   doAction(fatigue = 5) {
     if (this.fatigue < fatigue) return false;
     else {
