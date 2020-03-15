@@ -1,6 +1,5 @@
 import React from "react";
-import { Container, Typography, Chip, Paper, Button } from "@material-ui/core";
-import * as Icon from "@material-ui/icons";
+import { Container, Typography, Chip, Paper } from "@material-ui/core";
 import { ActionItem } from "./actionitem";
 import { ActionDay } from "./actionday";
 import { ActionResult } from "./actionresult";
