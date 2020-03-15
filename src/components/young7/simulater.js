@@ -71,7 +71,6 @@ export class Simulater extends React.Component {
   backDay = day => {
     this.curWorld = lodash.cloneDeep(this.worlds[day]);
     this.worlds = this.worlds.filter((_, i) => i <= day);
-    console.log(this.worlds);
     this.setState({
       curState: {
         day: this.curWorld.getDay(),
@@ -81,11 +80,10 @@ export class Simulater extends React.Component {
         knights: this.curWorld.getKnight(),
         region: this.curWorld.getRegion()
       },
-      actions: this.state.allActions.slice(12 * day, 12),
+      actions: this.state.allActions.slice(12 * day, 12 * (day + 1)),
       allActions: this.state.allActions.filter((_, i) => i < day * 12),
       storeWorld: this.state.storeWorld.filter((_, i) => i < day)
     });
-    console.log("this.state", this.state);
   };
 
   loadActions = strActions => {
