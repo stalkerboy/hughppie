@@ -24,7 +24,6 @@ export default function ConditionDialog(props) {
 
   const handleClickOpen = () => {
     if (!actions.length) return;
-    console.log("curWorld", curWorld);
     const tempWorld = lodash.cloneDeep(curWorld);
     const tempActions = lodash.cloneDeep(actions);
 
@@ -65,7 +64,7 @@ export default function ConditionDialog(props) {
         </Button>
       </FormControl>
       <Dialog open={open} onClose={handleClose} aria-labelledby="scroll-dialog-title" aria-describedby="scroll-dialog-description">
-        <DialogTitle id="scroll-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">현재상태확인</DialogTitle>
         <DialogContent dividers={true}>
           <DialogContentText id="scroll-dialog-description" ref={descriptionElementRef} tabIndex={-1}>
             <ActionResult curState={curState} />

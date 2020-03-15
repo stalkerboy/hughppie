@@ -112,7 +112,7 @@ export class Simulater extends React.Component {
         <ActionResult curState={this.state.curState} />
         <br />
         {this.state.storeWorld.length ? "일차 되돌리기" : null}
-        <Paper style={{ display: "flex" }}>
+        <Paper>
           {this.state.storeWorld.map(i => (
             <Chip key={i} onClick={() => this.backDay(i - 1)} style={{ maxWidth: 80, justifyContent: "center", margin: 15 }} label={i + "일차"} />
           ))}
