@@ -42,7 +42,7 @@ const actionReducer = (state, action) => {
 const typeList = { 전투: "fight", 순찰: "patrol", 건설: "build", 개발: "develop" };
 const typeDescList = {
   fight: {},
-  patrol: { 일반: "normal", 신기사공략: "knight", 시나: "scena", 점수: "score" },
+  patrol: { 일반순찰: "normal", 신기사공략: "knight", 시나리오: "scena", 점수: "score" },
   build: { science: [], spirit: [], information: [], other: [] },
   develop: {}
 };

@@ -6,7 +6,6 @@ export const KnightData = {
     build: 12,
     develop: 1,
 
-    clearPatrolCount: 0,
     clearValue: [
       { regionNo: 4, requiredFeeling: 20, addFeeling: 10 },
       { regionNo: 4, requiredFeeling: 40, addFeeling: 10 },
@@ -23,7 +22,6 @@ export const KnightData = {
     build: 7,
     develop: 7,
 
-    clearPatrolCount: 0,
     clearValue: [
       { regionNo: 1, requiredFeeling: 10, addFeeling: 30 },
       { regionNo: 1, requiredFeeling: 40, addFeeling: 20 },
@@ -40,7 +38,6 @@ export const KnightData = {
     build: 9,
     develop: 6,
 
-    clearPatrolCount: 0,
     clearValue: [
       { regionNo: 0, requiredFeeling: 20, addFeeling: 10 },
       { regionNo: 0, requiredFeeling: 40, addFeeling: 10 },
@@ -57,7 +54,6 @@ export const KnightData = {
     build: 1,
     develop: 6,
 
-    clearPatrolCount: 0,
     clearValue: [
       { regionNo: 0, requiredFeeling: 20, addFeeling: 10 },
       { regionNo: 0, requiredFeeling: 40, addFeeling: 10 },
@@ -74,7 +70,6 @@ export const KnightData = {
     patrol: 12,
     develop: 14,
 
-    clearPatrolCount: 0,
     clearValue: [
       { regionNo: 0, requiredFeeling: 50, addFeeling: 5 },
       { regionNo: 1, requiredFeeling: 60, addFeeling: 10 },
@@ -91,7 +86,6 @@ export const KnightData = {
     patrol: 8,
     develop: 8,
 
-    clearPatrolCount: 0,
     clearValue: [
       { regionNo: 0, requiredFeeling: 101, addFeeling: 0 },
       { regionNo: 0, requiredFeeling: 101, addFeeling: 0 },

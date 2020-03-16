@@ -35,13 +35,15 @@ export class Simulater extends React.Component {
   addAction = action => {
     const { actions } = this.state;
     if (actions.length > 11) return;
-    const max = actions.reduce((acc, action) => (acc >= action.key ? acc : action.key), 0) + 1;
-    this.setState({ actions: [...actions, { ...action, key: max }] });
 
     let tempWorld = lodash.cloneDeep(this.curWorld);
     const tempActions = [...actions, { ...action, key: max }];
     const isNotVaild = tempActions.map(action => tempWorld.processAction(action)).includes(false);
     this.setState({ alertOpen: isNotVaild });
+    if (isNotVaild) return;
+
+    const max = actions.reduce((acc, action) => (acc >= action.key ? acc : action.key), 0) + 1;
+    this.setState({ actions: [...actions, { ...action, key: max }] });
   };
 
   calcDay = (actions, ramenKnights) => {

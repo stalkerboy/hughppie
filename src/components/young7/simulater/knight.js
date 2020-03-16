@@ -7,7 +7,7 @@ export class Knight {
     this.build = knight.build;
     this.patrol = knight.patrol;
     this.develop = knight.develop;
-    this.clearPatrolCount = knight.clearPatrolCount;
+    this.clearPatrolCount = knight.clearPatrolCount ? knight.clearPatrolCount : 0;
     this.clearValue = knight.clearValue;
     this.isClear = false;
     this.sex = knight.sex;
