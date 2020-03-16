@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Chip, Button, TextField, FormControl } from "@material-ui/core";
+import { Paper, Chip, Button, TextField, FormControl, Typography } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import * as Icon from "@material-ui/icons";
 import { KnightData, RegionData } from "./simulater/data";
@@ -10,19 +10,26 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1)
   }
 }));
+const requiredPatrol = [10, 10, 10, 14, 14, 22, 22, 30, 36, 42, 50, 50];
 
 const knightsNames = Object.keys(KnightData);
 const regionNames = RegionData.map(region => region.name);
 
 export const ActionDay = props => {
   const classes = useStyles();
-  const { actions, setActions, calcDay } = props;
+  const { actions, setActions, calcDay, curKnights } = props;
   const handleDelete = acToDelete => () => setActions(actions.filter(ac => ac.key !== acToDelete.key));
 
   const [ramenKnights, setRamenKnights] = useState([]);
 
   return actions.length ? (
     <Paper>
+      {actions.filter(action => action.type === "patrol").length ? (
+        <Typography variant="h6" component="span" style={{ margin: 10, display: "flex", justfyText: "center" }}>
+          필요순찰력: {requiredPatrol[actions.filter(action => action.type === "patrol").length - 1]}
+          &nbsp;&nbsp;&nbsp; 현재순찰력: {curKnights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}
+        </Typography>
+      ) : null}
       <FormControl className={classes.formControl} style={{ display: "inline-block" }}>
         {actions.map(ac => {
           const chipConf = {};

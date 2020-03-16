@@ -4,6 +4,7 @@ import { Autocomplete } from "@material-ui/lab";
 import * as Icon from "@material-ui/icons";
 import { RegionData, KnightData, BuildingData } from "./simulater/data";
 import { makeStyles } from "@material-ui/core/styles";
+import GiftDialog from "./giftdialog";
 
 const useStyles = makeStyles(theme => ({
   formControl: {
@@ -55,7 +56,7 @@ export const ActionItem = props => {
   const classes = useStyles();
 
   const [action, dispatchAction] = useReducer(actionReducer, initialActionState);
-  const { addAction } = props;
+  const { addAction, curWorld, setCurKnights } = props;
 
   const onClickAdd = () => {
     if (!action.type || (action.regionNo !== 0 && !action.regionNo) || !action.knights) {
@@ -68,8 +69,38 @@ export const ActionItem = props => {
   };
   return (
     <Paper>
+      <div style={{ width: 400 }} />
+
       <div style={{ display: "flex" }}>
-        <FormControl variant="outlined" className={classes.formControl} style={{ width: 120 }}>
+        <FormControl className={classes.formControl} style={{ display: "flex", width: 430 }}>
+          <Autocomplete
+            multiple
+            id="tags-outlined"
+            options={knightsNames}
+            getOptionLabel={option => option}
+            getOptionSelected={name => {
+              if (action.knights.length >= 3 || action.knights.includes(name)) return true;
+            }}
+            defaultValue={[]}
+            filterSelectedOptions
+            onChange={(_, value) => {
+              dispatchAction({ name: "setKnights", knights: value });
+              setCurKnights(value);
+              return true;
+            }}
+            renderTags={(value, getTagProps) =>
+              value
+                .filter((v, i) => i < 3)
+                .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
+            }
+            renderInput={params => <TextField {...params} variant="outlined" label="신기사" placeholder="신기사" />}
+          />
+        </FormControl>
+        <GiftDialog curWorld={curWorld} />
+      </div>
+
+      <div style={{ display: "flex" }}>
+        <FormControl variant="outlined" className={classes.formControl} style={{ width: 260, display: "flex" }}>
           <InputLabel id="select-action-regionNo" style={{ background: "white" }}>
             지역
           </InputLabel>
@@ -86,42 +117,27 @@ export const ActionItem = props => {
             ))}
           </Select>
         </FormControl>
-        <FormControl className={classes.formControl} style={{ width: 400 }}>
-          <Autocomplete
-            multiple
-            id="tags-outlined"
-            options={knightsNames}
-            getOptionLabel={option => option}
-            getOptionSelected={name => {
-              if (action.knights.length >= 3 || action.knights.includes(name)) return true;
-            }}
-            defaultValue={[]}
-            filterSelectedOptions
-            onChange={(_, value) => dispatchAction({ name: "setKnights", knights: value })}
-            renderTags={(value, getTagProps) =>
-              value
-                .filter((v, i) => i < 3)
-                .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
-            }
-            renderInput={params => <TextField {...params} variant="outlined" label="신기사" placeholder="신기사" />}
-          />
+        <FormControl variant="outlined" className={classes.formControl} style={{ width: 260, display: "flex" }}>
+          <InputLabel id="select-action-type" style={{ background: "white" }}>
+            타입
+          </InputLabel>
+          <Select
+            labelId="select-action-type"
+            id="type"
+            value={action.type}
+            onChange={e => dispatchAction({ name: "setType", type: e.target.value })}
+          >
+            {Object.keys(typeList).map(key => (
+              <MenuItem key={key} value={typeList[key]}>
+                {key}
+              </MenuItem>
+            ))}
+          </Select>
         </FormControl>
       </div>
-      <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
-        <InputLabel id="select-action-type" style={{ background: "white" }}>
-          타입
-        </InputLabel>
-        <Select labelId="select-action-type" id="type" value={action.type} onChange={e => dispatchAction({ name: "setType", type: e.target.value })}>
-          {Object.keys(typeList).map(key => (
-            <MenuItem key={key} value={typeList[key]}>
-              {key}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
       {action.type === "build" || action.type === "patrol" ? (
-        <div>
-          <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
+        <div style={{ display: "flex" }}>
+          <FormControl variant="outlined" className={classes.formControl} style={{ width: 260, display: "flex" }}>
             <InputLabel id="select-action-typedesc" htmlFor="grouped-select" style={{ background: "white" }}>
               타입 상세
             </InputLabel>
@@ -153,7 +169,7 @@ export const ActionItem = props => {
             </Select>
           </FormControl>
           {action.typeDesc === "knight" ? (
-            <FormControl variant="outlined" className={classes.formControl} style={{ display: "flex" }}>
+            <FormControl variant="outlined" className={classes.formControl} style={{ width: 260, display: "flex" }}>
               <InputLabel id="select-action-target" style={{ background: "white" }}>
                 대상
               </InputLabel>
@@ -172,7 +188,9 @@ export const ActionItem = props => {
                   : null}
               </Select>
             </FormControl>
-          ) : null}
+          ) : (
+            <div style={{ width: 260, display: "flex" }} />
+          )}
         </div>
       ) : null}
       {action.regionNo > -1 &&

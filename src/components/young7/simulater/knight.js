@@ -11,6 +11,7 @@ export class Knight {
     this.clearValue = knight.clearValue;
     this.isClear = false;
     this.sex = knight.sex;
+    this.gifts = knight.gifts ? knight.gifts : [];
   }
 
   eatRamen() {
@@ -56,7 +57,7 @@ export class Knight {
   clearPatrol(action) {
     if (!this.isClear) {
       const clearValue = this.clearValue[this.clearPatrolCount];
-      if (action.regionNo === clearValue.regionNo && this.feeling >= clearValue.requiredFeeling) {
+      if (action.regionNo === clearValue.regionNo && this.feeling + this.gifts.reduce((acc, v) => acc + v, 0) >= clearValue.requiredFeeling) {
         this.feeling += clearValue.addFeeling;
         this.clearPatrolCount++;
         if (this.feeling > 100) {
@@ -70,9 +71,10 @@ export class Knight {
   }
 
   printKnight() {
+    const tempFeeling = this.feeling + this.gifts.reduce((acc, v) => acc + v, 0);
     const str = `${this.name}   
     피로도 : ${this.fatigue}   활동수 : ${this.actionCount} 
-    호감도 : ${this.feeling} ${this.isClear ? "공략완료" : ""}
+    호감도 : ${tempFeeling > 100 ? 100 : tempFeeling} ${this.isClear ? "공략완료" : ""}
     공략순찰횟수 : ${this.clearPatrolCount} `;
     return str;
   }

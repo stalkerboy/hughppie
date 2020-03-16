@@ -6,9 +6,10 @@ import { ActionAlert } from "./actionalert";
 import { ActionResult } from "./actionresult";
 import { World } from "./simulater/world";
 
+import ConditionDialog from "./conditiondialog";
+
 import lodash from "lodash";
 // import { SaveLoadAction } from "./saveloadaction";
-import ConditionDialog from "./conditiondialog";
 
 export class Simulater extends React.Component {
   constructor(props) {
@@ -18,7 +19,6 @@ export class Simulater extends React.Component {
     this.state = {
       actions: [],
       allActions: [],
-      curAction: {},
       curState: {
         day: this.curWorld.getDay(),
         spirit: this.curWorld.getSpirit(),
@@ -28,7 +28,8 @@ export class Simulater extends React.Component {
         region: this.curWorld.getRegion()
       },
       storeWorld: [],
-      alertOpen: false
+      alertOpen: false,
+      curKnights: []
     };
   }
 
@@ -36,13 +37,14 @@ export class Simulater extends React.Component {
     const { actions } = this.state;
     if (actions.length > 11) return;
 
+    const max = actions.reduce((acc, action) => (acc >= action.key ? acc : action.key), 0) + 1;
+
     let tempWorld = lodash.cloneDeep(this.curWorld);
     const tempActions = [...actions, { ...action, key: max }];
     const isNotVaild = tempActions.map(action => tempWorld.processAction(action)).includes(false);
     this.setState({ alertOpen: isNotVaild });
     if (isNotVaild) return;
 
-    const max = actions.reduce((acc, action) => (acc >= action.key ? acc : action.key), 0) + 1;
     this.setState({ actions: [...actions, { ...action, key: max }] });
   };
 
@@ -104,14 +106,24 @@ export class Simulater extends React.Component {
   render() {
     return (
       <Container maxWidth="sm">
-        <Typography component="h6" variant="h6" style={{ display: "flex", justifyContent: "center" }}>
+        <Typography component="h6" variant="h6" style={{ display: "flex" }}>
           <br />
-          {this.state.curState.day}일차 &nbsp;&nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 :{" "}
+          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 :{" "}
           {this.state.curState.information}
         </Typography>
-        <ActionItem curAction={this.state.curAction} setCurAction={action => this.setState({ curAction: action })} addAction={this.addAction} />
+        <ActionItem
+          setCurAction={action => this.setState({ curAction: action })}
+          addAction={this.addAction}
+          curWorld={this.curWorld}
+          setCurKnights={knights => this.setState({ curKnights: knights })}
+        />
 
-        <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} />
+        <ActionDay
+          actions={this.state.actions}
+          setActions={actions => this.setState({ actions })}
+          calcDay={this.calcDay}
+          curKnights={this.state.curKnights}
+        />
 
         {this.state.actions.length ? (
           <Paper>
