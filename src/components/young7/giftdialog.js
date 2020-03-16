@@ -25,8 +25,14 @@ export default function GiftDialog(props) {
 
   return (
     <>
-      <FormControl>
-        <Button color="primary" startIcon={<CardGiftcard />} size="large" style={{ width: 80, margin: 15, marginLeft: 3 }} onClick={handleClickOpen}>
+      <FormControl style={{ margin: 0 }}>
+        <Button
+          color="primary"
+          size="large"
+          style={{ width: 60, marginTop: 15, marginLeft: 0, paddingLeft: 0, paddingRight: 0 }}
+          onClick={handleClickOpen}
+        >
+          <CardGiftcard />
           선물
         </Button>
       </FormControl>

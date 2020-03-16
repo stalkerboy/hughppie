@@ -72,7 +72,7 @@ export const ActionItem = props => {
       <div style={{ width: 400 }} />
 
       <div style={{ display: "flex" }}>
-        <FormControl className={classes.formControl} style={{ display: "flex", width: 430 }}>
+        <FormControl className={classes.formControl} style={{ display: "flex", width: 300, marginRight: 0 }}>
           <Autocomplete
             multiple
             id="tags-outlined"
