@@ -13,14 +13,14 @@ export const ActionResult = props => {
   const { curState } = props;
   return (
     <Card>
-      <Typography variant="h5" component={"span"} style={{ margin: 10 }}>
+      <Typography variant="h5" component="span" style={{ margin: 10 }}>
         {curState.day - 1} 일 {curState.hour ? curState.hour + "시간 경과" : null}
       </Typography>
       <FormControl className={classes.formControl} style={{ display: "flex" }}>
         과학력 : {curState.science} &nbsp; 환력 : {curState.spirit} &nbsp; 정보력 : {curState.information}
       </FormControl>
       <FormControl className={classes.formControl} style={{ display: "inline-block" }}>
-        <div>지역 :</div>
+        지역 :<br />
         {curState.region.map((s, index) => (
           <FormControl key={index} className={classes.formControl}>
             <Paper key={index} elevation={4} style={{ padding: 10, maxWidth: 200, minWidth: 150 }}>
@@ -38,7 +38,7 @@ export const ActionResult = props => {
       </FormControl>
       <br />
       <FormControl className={classes.formControl} style={{ display: "inline-block" }}>
-        <div>신기사 :</div>
+        신기사 :<br />
         {curState.knights.map((s, index) => (
           <FormControl key={index} className={classes.formControl}>
             <Paper key={index} elevation={4} style={{ padding: 10, maxWidth: 200, minWidth: 150 }}>

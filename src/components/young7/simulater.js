@@ -2,8 +2,10 @@ import React from "react";
 import { Container, Typography, Chip, Paper } from "@material-ui/core";
 import { ActionItem } from "./actionitem";
 import { ActionDay } from "./actionday";
+import { ActionAlert } from "./actionalert";
 import { ActionResult } from "./actionresult";
 import { World } from "./simulater/world";
+
 import lodash from "lodash";
 // import { SaveLoadAction } from "./saveloadaction";
 import ConditionDialog from "./conditiondialog";
@@ -25,7 +27,8 @@ export class Simulater extends React.Component {
         knights: this.curWorld.getKnight(),
         region: this.curWorld.getRegion()
       },
-      storeWorld: []
+      storeWorld: [],
+      alertOpen: false
     };
   }
 
@@ -34,6 +37,11 @@ export class Simulater extends React.Component {
     if (actions.length > 11) return;
     const max = actions.reduce((acc, action) => (acc >= action.key ? acc : action.key), 0) + 1;
     this.setState({ actions: [...actions, { ...action, key: max }] });
+
+    let tempWorld = lodash.cloneDeep(this.curWorld);
+    const tempActions = [...actions, { ...action, key: max }];
+    const isNotVaild = tempActions.map(action => tempWorld.processAction(action)).includes(false);
+    this.setState({ alertOpen: isNotVaild });
   };
 
   calcDay = (actions, ramenKnights) => {
@@ -105,7 +113,7 @@ export class Simulater extends React.Component {
 
         {this.state.actions.length ? (
           <Paper>
-            <ConditionDialog curWorld={this.curWorld} actions={this.state.actions} transact={this.transact} />{" "}
+            <ConditionDialog curWorld={this.curWorld} actions={this.state.actions} transact={this.transact} />
           </Paper>
         ) : null}
 
@@ -117,6 +125,7 @@ export class Simulater extends React.Component {
             <Chip key={i} onClick={() => this.backDay(i - 1)} style={{ maxWidth: 80, justifyContent: "center", margin: 15 }} label={i + "일차"} />
           ))}
         </Paper>
+        <ActionAlert alertOpen={this.state.alertOpen} setAlertOpen={v => this.setState({ alertOpen: v })} />
         {/* <SaveLoadAction actions={this.state.allActions} loadActions={this.loadActions} /> */}
       </Container>
     );
