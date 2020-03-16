@@ -26,7 +26,7 @@ export const ActionDay = props => {
     <Paper>
       {actions.filter(action => action.type === "patrol").length ? (
         <Typography variant="h6" component="span" style={{ margin: 10, display: "flex", justfyText: "center" }}>
-          필요순찰력: {requiredPatrol[actions.filter(action => action.type === "patrol").length - 1]}
+          필요순찰력: {requiredPatrol[actions.filter(action => action.type === "patrol").length]}
           &nbsp;&nbsp;&nbsp; 현재순찰력: {curKnights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}
         </Typography>
       ) : null}
