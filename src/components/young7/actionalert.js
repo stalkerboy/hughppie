@@ -7,7 +7,7 @@ function Alert(props) {
 }
 
 export const ActionAlert = props => {
-  const { alertOpen, setAlertOpen } = props;
+  const { alertOpen, setAlertOpen, text } = props;
 
   //   const handleClick = () => {
   //     setOpen(true);
@@ -23,7 +23,7 @@ export const ActionAlert = props => {
   return (
     <Snackbar open={alertOpen} autoHideDuration={1000} onClose={handleClose}>
       <Alert onClose={handleClose} severity="error">
-        실행할수 없는 행동
+        {text}
       </Alert>
     </Snackbar>
   );

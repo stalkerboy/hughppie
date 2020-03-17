@@ -5,7 +5,6 @@ import { Building } from "./building";
 
 export class World {
   constructor(knights) {
-    this.actionHistory = [];
     this.curTime = 0;
 
     this.knights = knights ? knights : this.createAllKnight();
@@ -13,6 +12,8 @@ export class World {
 
     this.dayPatrolCount = 0;
     this.worldLimitBuilding = {};
+
+    this.ramenHistory = [];
   }
 
   createAllKnight() {
@@ -28,7 +29,7 @@ export class World {
     for (let region of RegionData) {
       regions.push(new Region(region));
     }
-    regions[0].buildings.push(new Building(BuildingData.중앙청기지));
+    regions[0].buildings[0] = new Building(BuildingData.중앙청기지);
     return regions;
   }
 
@@ -94,7 +95,6 @@ export class World {
         console.log("not vaild action");
         return false;
     }
-    this.actionHistory.push(action);
     this.curTime++;
     return isVaild;
   }
@@ -110,6 +110,7 @@ export class World {
       this.knights[knightName].eatRamen();
       return true;
     });
+    this.ramenHistory.push(knightNames);
   }
 
   dayRest() {

@@ -100,18 +100,46 @@ export class Simulater extends React.Component {
 
   loadData = strData => {
     try {
-      const parseLoadData = JSON.parse(strData);
-      const actions = parseLoadData.actions;
-      const gifts = parseLoadData.gifts;
+      const { actions, gifts, ramen } = JSON.parse(strData);
 
-      this.curWorld = new World();
-      this.worlds = [lodash.cloneDeep(this.curWorld)];
-      this.setState({ allActions: parseLoadData.actions });
+      const tempWorld = new World();
+      const tempWorlds = [new World()];
 
-      const day = parseInt(allActions.length / 12);
-      const hour = allActions.length % 12;
+      Object.keys(gifts).map(name => (tempWorld.knights[name].gifts = gifts[name]));
 
-      [...Array(day)].map;
+      const day = parseInt(actions.length / 12);
+      // const hour = actions.length % 12;
+
+      const isVaild = ![...Array(day)]
+        .map((_, i) => {
+          if (this.transact(tempWorld, actions.splice(i * 12, (i + 1) * 12))) {
+            tempWorld.ramenHistory.push(ramen[i]);
+            tempWorld.eatRamen(tempWorld.ramenHistory[i]);
+            tempWorlds.push(lodash.cloneDeep(tempWorld));
+            return true;
+          }
+          return false;
+        })
+        .includes(false);
+      if (isVaild) {
+        this.curWorld = tempWorld;
+        this.worlds = tempWorlds;
+        this.setState({
+          allActions: actions,
+          actions: actions.splice(12 * day, actions.length),
+          curState: {
+            day: tempWorld.getDay(),
+            spirit: tempWorld.getSpirit(),
+            science: tempWorld.getScience(),
+            information: tempWorld.getInformation(),
+            knights: tempWorld.getKnight(),
+            region: tempWorld.getRegion()
+          },
+          storeWorld: [...Array(day)].map((_, i) => i + 1)
+        });
+        return true;
+      }
+      return false;
     } catch (e) {
       console.log("parsing error" + e);
       return false;
@@ -125,7 +153,8 @@ export class Simulater extends React.Component {
       <Container maxWidth="sm">
         <Typography component="h6" variant="h6" style={{ display: "flex" }}>
           <br />
-          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 : {this.state.curState.information}
+          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 :{" "}
+          {this.state.curState.information}
         </Typography>
         <ActionItem
           setCurAction={action => this.setState({ curAction: action })}
@@ -134,7 +163,12 @@ export class Simulater extends React.Component {
           setCurKnights={knights => this.setState({ curKnights: knights })}
         />
 
-        <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} curKnights={this.state.curKnights} />
+        <ActionDay
+          actions={this.state.actions}
+          setActions={actions => this.setState({ actions })}
+          calcDay={this.calcDay}
+          curKnights={this.state.curKnights}
+        />
 
         {this.state.actions.length ? (
           <Paper>
@@ -150,7 +184,7 @@ export class Simulater extends React.Component {
             <Chip key={i} onClick={() => this.backDay(i - 1)} style={{ maxWidth: 80, justifyContent: "center", margin: 15 }} label={i + "일차"} />
           ))}
         </Paper>
-        <ActionAlert alertOpen={this.state.alertOpen} setAlertOpen={v => this.setState({ alertOpen: v })} />
+        <ActionAlert alertOpen={this.state.alertOpen} setAlertOpen={v => this.setState({ alertOpen: v })} text="실행할수 없는 행동" />
         <SaveLoadAction
           actions={this.state.allActions}
           gifts={Object.keys(this.curWorld.knights)
@@ -159,6 +193,7 @@ export class Simulater extends React.Component {
               acc[name] = this.curWorld.knights[name].gifts;
               return acc;
             }, {})}
+          ramen={this.curWorld.ramenHistory}
           loadData={this.loadData}
         />
       </Container>
