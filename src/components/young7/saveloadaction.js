@@ -36,14 +36,14 @@ export function SaveLoadAction(props) {
 
   return (
     <div style={{ display: "flex", justifyContent: "center" }}>
-      <Button variant="outlined" color="primary" startIcon={<Icon.Save />} style={{ margin: 20, width: 160 }} onClick={() => handleClickOpen("save")}>
+      <Button variant="outlined" color="primary" startIcon={<Icon.Save />} style={{ margin: 15, width: 160 }} onClick={() => handleClickOpen("save")}>
         Save
       </Button>
       <Button
         variant="outlined"
         color="primary"
         startIcon={<Icon.CloudUpload />}
-        style={{ margin: 20, width: 160 }}
+        style={{ margin: 15, width: 160 }}
         onClick={() => handleClickOpen("load")}
       >
         Load
