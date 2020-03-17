@@ -9,7 +9,7 @@ import { World } from "./simulater/world";
 import ConditionDialog from "./conditiondialog";
 
 import lodash from "lodash";
-// import { SaveLoadAction } from "./saveloadaction";
+import { SaveLoadAction } from "./saveloadaction";
 
 export class Simulater extends React.Component {
   constructor(props) {
@@ -98,18 +98,34 @@ export class Simulater extends React.Component {
     });
   };
 
-  loadActions = strActions => {
-    const parseAction = JSON.parse(strActions);
-    console.log(parseAction);
+  loadData = strData => {
+    try {
+      const parseLoadData = JSON.parse(strData);
+      const actions = parseLoadData.actions;
+      const gifts = parseLoadData.gifts;
+
+      this.curWorld = new World();
+      this.worlds = [lodash.cloneDeep(this.curWorld)];
+      this.setState({ allActions: parseLoadData.actions });
+
+      const day = parseInt(allActions.length / 12);
+      const hour = allActions.length % 12;
+
+      [...Array(day)].map;
+    } catch (e) {
+      console.log("parsing error" + e);
+      return false;
+    }
   };
+
+  load = () => {};
 
   render() {
     return (
       <Container maxWidth="sm">
         <Typography component="h6" variant="h6" style={{ display: "flex" }}>
           <br />
-          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 :{" "}
-          {this.state.curState.information}
+          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 : {this.state.curState.information}
         </Typography>
         <ActionItem
           setCurAction={action => this.setState({ curAction: action })}
@@ -118,12 +134,7 @@ export class Simulater extends React.Component {
           setCurKnights={knights => this.setState({ curKnights: knights })}
         />
 
-        <ActionDay
-          actions={this.state.actions}
-          setActions={actions => this.setState({ actions })}
-          calcDay={this.calcDay}
-          curKnights={this.state.curKnights}
-        />
+        <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} curKnights={this.state.curKnights} />
 
         {this.state.actions.length ? (
           <Paper>
@@ -140,7 +151,16 @@ export class Simulater extends React.Component {
           ))}
         </Paper>
         <ActionAlert alertOpen={this.state.alertOpen} setAlertOpen={v => this.setState({ alertOpen: v })} />
-        {/* <SaveLoadAction actions={this.state.allActions} loadActions={this.loadActions} /> */}
+        <SaveLoadAction
+          actions={this.state.allActions}
+          gifts={Object.keys(this.curWorld.knights)
+            .filter(name => this.curWorld.knights[name].gifts && this.curWorld.knights[name].gifts.length)
+            .reduce((acc, name) => {
+              acc[name] = this.curWorld.knights[name].gifts;
+              return acc;
+            }, {})}
+          loadData={this.loadData}
+        />
       </Container>
     );
   }
