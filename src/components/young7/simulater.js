@@ -112,9 +112,10 @@ export class Simulater extends React.Component {
 
       const isVaild = ![...Array(day)]
         .map((_, i) => {
-          if (this.transact(tempWorld, actions.splice(i * 12, (i + 1) * 12))) {
+          if (this.transact(tempWorld, [...actions].splice(i * 12, (i + 1) * 12))) {
             tempWorld.ramenHistory.push(ramen[i]);
             tempWorld.eatRamen(tempWorld.ramenHistory[i]);
+            tempWorld.processDay();
             tempWorlds.push(lodash.cloneDeep(tempWorld));
             return true;
           }
@@ -125,7 +126,7 @@ export class Simulater extends React.Component {
         this.curWorld = tempWorld;
         this.worlds = tempWorlds;
         this.setState({
-          allActions: actions,
+          allActions: [...actions],
           actions: actions.splice(12 * day, actions.length),
           curState: {
             day: tempWorld.getDay(),
@@ -153,8 +154,7 @@ export class Simulater extends React.Component {
       <Container maxWidth="sm">
         <Typography component="h6" variant="h6" style={{ display: "flex" }}>
           <br />
-          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 :{" "}
-          {this.state.curState.information}
+          {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 : {this.state.curState.information}
         </Typography>
         <ActionItem
           setCurAction={action => this.setState({ curAction: action })}
@@ -163,12 +163,7 @@ export class Simulater extends React.Component {
           setCurKnights={knights => this.setState({ curKnights: knights })}
         />
 
-        <ActionDay
-          actions={this.state.actions}
-          setActions={actions => this.setState({ actions })}
-          calcDay={this.calcDay}
-          curKnights={this.state.curKnights}
-        />
+        <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} curKnights={this.state.curKnights} />
 
         {this.state.actions.length ? (
           <Paper>
