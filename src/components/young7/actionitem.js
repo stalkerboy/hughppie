@@ -76,7 +76,7 @@ export const ActionItem = props => {
           <Autocomplete
             multiple
             id="tags-outlined"
-            options={knightsNames}
+            options={knightsNames.sort()}
             getOptionLabel={option => option}
             getOptionSelected={name => {
               if (action.knights.length >= 3 || action.knights.includes(name)) return true;
@@ -88,11 +88,7 @@ export const ActionItem = props => {
               setCurKnights(value);
               return true;
             }}
-            renderTags={(value, getTagProps) =>
-              value
-                .filter((v, i) => i < 3)
-                .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
-            }
+            renderTags={(value, getTagProps) => value.filter((v, i) => i < 3).map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)}
             renderInput={params => <TextField {...params} variant="outlined" label="신기사" placeholder="신기사" />}
           />
         </FormControl>
@@ -104,12 +100,7 @@ export const ActionItem = props => {
           <InputLabel id="select-action-regionNo" style={{ background: "white" }}>
             지역
           </InputLabel>
-          <Select
-            labelId="select-action-regionNo"
-            id="regionNo"
-            value={action.regionNo}
-            onChange={e => dispatchAction({ name: "setRegionNo", regionNo: e.target.value })}
-          >
+          <Select labelId="select-action-regionNo" id="regionNo" value={action.regionNo} onChange={e => dispatchAction({ name: "setRegionNo", regionNo: e.target.value })}>
             {regionNames.map((name, i) => (
               <MenuItem key={i} value={i}>
                 {name}
@@ -121,12 +112,7 @@ export const ActionItem = props => {
           <InputLabel id="select-action-type" style={{ background: "white" }}>
             타입
           </InputLabel>
-          <Select
-            labelId="select-action-type"
-            id="type"
-            value={action.type}
-            onChange={e => dispatchAction({ name: "setType", type: e.target.value })}
-          >
+          <Select labelId="select-action-type" id="type" value={action.type} onChange={e => dispatchAction({ name: "setType", type: e.target.value })}>
             {Object.keys(typeList).map(key => (
               <MenuItem key={key} value={typeList[key]}>
                 {key}
@@ -141,13 +127,7 @@ export const ActionItem = props => {
             <InputLabel id="select-action-typedesc" htmlFor="grouped-select" style={{ background: "white" }}>
               타입 상세
             </InputLabel>
-            <Select
-              native
-              labelId="select-action-typedesc"
-              id="typeDesc"
-              value={action.typeDesc}
-              onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })}
-            >
+            <Select native labelId="select-action-typedesc" id="typeDesc" value={action.typeDesc} onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })}>
               <option key={0} label={""}></option>
               {action.type === "patrol"
                 ? Object.keys(typeDescList[action.type]).map((name, i) => (
@@ -173,12 +153,7 @@ export const ActionItem = props => {
               <InputLabel id="select-action-target" style={{ background: "white" }}>
                 대상
               </InputLabel>
-              <Select
-                labelId="select-action-target"
-                id="target"
-                value={action.target}
-                onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })}
-              >
+              <Select labelId="select-action-target" id="target" value={action.target} onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })}>
                 {action.typeDesc === "knight"
                   ? action.knights.map(name => (
                       <MenuItem key={name} value={name}>

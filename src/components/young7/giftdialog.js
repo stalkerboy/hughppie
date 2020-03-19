@@ -26,12 +26,7 @@ export default function GiftDialog(props) {
   return (
     <>
       <FormControl style={{ margin: 0 }}>
-        <Button
-          color="primary"
-          size="large"
-          style={{ width: 60, marginTop: 15, marginLeft: 0, paddingLeft: 0, paddingRight: 0 }}
-          onClick={handleClickOpen}
-        >
+        <Button color="primary" size="large" style={{ width: 60, marginTop: 15, marginLeft: 0, paddingLeft: 0, paddingRight: 0 }} onClick={handleClickOpen}>
           <CardGiftcard />
           선물
         </Button>
@@ -43,7 +38,7 @@ export default function GiftDialog(props) {
           <FormControl style={{ margin: 15, display: "flex" }}>
             <Autocomplete
               id="tags-outlined-gift"
-              options={knightsNames}
+              options={knightsNames.sort()}
               defaultValue={""}
               filterSelectedOptions
               onChange={(_, value) => {
@@ -54,9 +49,7 @@ export default function GiftDialog(props) {
                   return;
                 }
               }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
-              }
+              renderTags={(value, getTagProps) => value.map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)}
               renderInput={params => <TextField {...params} variant="outlined" label="신기사" placeholder="신기사" />}
             />
           </FormControl>
@@ -75,9 +68,7 @@ export default function GiftDialog(props) {
                 curWorld.knights[curKnight].gifts = value;
                 // (curWorld.knights.gifts = value.length ? value : [])
               }}
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
-              }
+              renderTags={(value, getTagProps) => value.map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)}
               renderInput={params => <TextField {...params} variant="outlined" label="호감도선물" placeholder="호감도선물" />}
             />
           </FormControl>

@@ -61,6 +61,7 @@ export class World {
         this.dayPatrolCount++;
         break;
       case "build":
+        const tempCurScience = this.getScience();
         this.regions.map(region => {
           const destroyBuilding = region.buildings.filter(building => building.buildDestroyPlan);
           if (destroyBuilding.length) region.destroyBuilding(destroyBuilding[0].name);
@@ -74,9 +75,7 @@ export class World {
             this.worldLimitBuilding[data.building.name]++;
           } else return false;
         } else if (data.building.limit.region) {
-          this.regions[action.regionNo].regionLimitBuilding[data.building.name] = this.regions[action.regionNo].regionLimitBuilding[
-            data.building.name
-          ]
+          this.regions[action.regionNo].regionLimitBuilding[data.building.name] = this.regions[action.regionNo].regionLimitBuilding[data.building.name]
             ? this.regions[action.regionNo].regionLimitBuilding[data.building.name]
             : 0;
           if (this.regions[action.regionNo].regionLimitBuilding[data.building.name] < data.building.limit.region) {
@@ -85,7 +84,7 @@ export class World {
         } else {
           if (Object.keys(data.building.limit).length) return false;
         }
-
+        if (tempCurScience < data.building.requiredScience) return false;
         isVaild = this.regions[action.regionNo].build(data);
         break;
       case "develop":

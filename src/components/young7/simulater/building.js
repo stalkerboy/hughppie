@@ -3,7 +3,7 @@ export class Building {
     this.name = building.name;
 
     this.requiredBuild = building.requiredBuild ? building.requiredBuild : 999;
-    this.requiredScience = building.requiredScience ? building.requiredScience : 999;
+    this.requiredScience = building.requiredScience ? building.requiredScience : 0;
 
     this.spirit = building.spirit ? building.spirit : 0;
     this.science = building.science ? building.science : 0;
