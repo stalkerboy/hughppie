@@ -56,7 +56,9 @@ export const ActionItem = props => {
   const classes = useStyles();
 
   const [action, dispatchAction] = useReducer(actionReducer, initialActionState);
-  const { addAction, curWorld, setCurKnights } = props;
+  const { addAction, curWorld, setCurKnights, setRequiredStat } = props;
+
+  const requiredDevelop = [10, 14, 22, 30];
 
   const onClickAdd = () => {
     if (!action.type || (action.regionNo !== 0 && !action.regionNo) || !action.knights) {
@@ -100,7 +102,15 @@ export const ActionItem = props => {
           <InputLabel id="select-action-regionNo" style={{ background: "white" }}>
             지역
           </InputLabel>
-          <Select labelId="select-action-regionNo" id="regionNo" value={action.regionNo} onChange={e => dispatchAction({ name: "setRegionNo", regionNo: e.target.value })}>
+          <Select
+            labelId="select-action-regionNo"
+            id="regionNo"
+            value={action.regionNo}
+            onChange={e => {
+              setRequiredStat({ develop: requiredDevelop[curWorld.regions[e.target.value].buildingMax - 4] });
+              return dispatchAction({ name: "setRegionNo", regionNo: e.target.value });
+            }}
+          >
             {regionNames.map((name, i) => (
               <MenuItem key={i} value={i}>
                 {name}

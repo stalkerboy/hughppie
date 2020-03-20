@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Typography, Chip, Paper } from "@material-ui/core";
+import { Container, Typography, Chip, Paper, Avatar, Badge } from "@material-ui/core";
 import { ActionItem } from "./actionitem";
 import { ActionDay } from "./actionday";
 import { ActionAlert } from "./actionalert";
@@ -10,6 +10,7 @@ import ConditionDialog from "./conditiondialog";
 
 import lodash from "lodash";
 import { SaveLoadAction } from "./saveloadaction";
+import { KnightData } from "./simulater/data";
 
 export class Simulater extends React.Component {
   constructor(props) {
@@ -29,7 +30,8 @@ export class Simulater extends React.Component {
       },
       storeWorld: [],
       alertOpen: false,
-      curKnights: []
+      curKnights: [],
+      requiredStat: { patrol: 0, build: 0, develop: 0 }
     };
   }
 
@@ -45,7 +47,9 @@ export class Simulater extends React.Component {
     this.setState({ alertOpen: isNotVaild });
     if (isNotVaild) return;
 
-    this.setState({ actions: [...actions, { ...action, key: max }] });
+    const patrolcount = this.curWorld.dayPatrolCount + actions.filter(action => action.type === "patrol").length;
+    const requiredPatrol = [10, 10, 10, 14, 14, 22, 22, 30, 36, 42, 50, 50];
+    this.setState({ actions: [...actions, { ...action, key: max }], requiredStat: { ...this.state.requiredstat, patrol: requiredPatrol[patrolcount] } });
   };
 
   calcDay = (actions, ramenKnights) => {
@@ -156,14 +160,56 @@ export class Simulater extends React.Component {
           <br />
           {this.state.curState.day}일차 &nbsp; 과학력 : {this.state.curState.science} &nbsp; 환력 : {this.state.curState.spirit} &nbsp; 정보력 : {this.state.curState.information}
         </Typography>
+        <div style={{ display: "flex" }}>
+          <Typography component="h6" variant="h6" style={{ display: "flex", verticalAlign: "center", marginTop: 10 }}>
+            신기사합
+          </Typography>
+          <Badge overlap="circle" badgeContent="순찰">
+            <Avatar alt="순찰치" style={{ background: "#3f51b5", display: "flex", margin: 7 }}>
+              {this.state.curKnights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}
+            </Avatar>
+          </Badge>
+          <Badge overlap="circle" badgeContent="건설">
+            <Avatar alt="건설치" style={{ display: "flex", margin: 7 }}>
+              {this.state.curKnights.reduce((acc, name) => acc + KnightData[name].build, 0)}
+            </Avatar>
+          </Badge>
+          <Badge overlap="circle" badgeContent="개발">
+            <Avatar alt="개발치" style={{ background: "#8bc34a", display: "flex", margin: 7 }}>
+              {this.state.curKnights.reduce((acc, name) => acc + KnightData[name].develop, 0)}
+            </Avatar>
+          </Badge>
+        </div>
+
+        <div style={{ display: "flex", alignContent: "center" }}>
+          <Typography component="h6" variant="h6" style={{ display: "flex", verticalAlign: "center", marginTop: 10 }}>
+            필요수치
+          </Typography>
+          <Badge overlap="circle" badgeContent="순찰">
+            <Avatar alt="순찰치" style={{ background: "#3f51b5", display: "flex", margin: 7 }}>
+              {this.state.requiredStat.patrol}
+            </Avatar>
+          </Badge>
+          <Badge overlap="circle" badgeContent="건설">
+            <Avatar alt="건설치" style={{ display: "flex", margin: 7 }}>
+              {this.state.requiredStat.build}
+            </Avatar>
+          </Badge>
+          <Badge overlap="circle" badgeContent="개발">
+            <Avatar alt="개발치" style={{ background: "#8bc34a", display: "flex", margin: 7 }}>
+              {this.state.requiredStat.develop}
+            </Avatar>
+          </Badge>
+        </div>
         <ActionItem
           setCurAction={action => this.setState({ curAction: action })}
           addAction={this.addAction}
           curWorld={this.curWorld}
           setCurKnights={knights => this.setState({ curKnights: knights })}
+          setRequiredStat={required => this.setState({ requiredStat: { ...this.state.requiredStat, required } })}
         />
 
-        <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} curKnights={this.state.curKnights} />
+        <ActionDay actions={this.state.actions} setActions={actions => this.setState({ actions })} calcDay={this.calcDay} />
 
         {this.state.actions.length ? (
           <Paper>

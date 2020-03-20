@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Paper, Chip, Button, TextField, FormControl, Typography } from "@material-ui/core";
+import { Paper, Chip, Button, TextField, FormControl } from "@material-ui/core";
 import { Autocomplete } from "@material-ui/lab";
 import * as Icon from "@material-ui/icons";
 import { KnightData, RegionData } from "./simulater/data";
@@ -10,29 +10,28 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1)
   }
 }));
-const requiredPatrol = [10, 10, 10, 14, 14, 22, 22, 30, 36, 42, 50, 50];
 
 const knightsNames = Object.keys(KnightData);
 const regionNames = RegionData.map(region => region.name);
 
 export const ActionDay = props => {
   const classes = useStyles();
-  const { actions, setActions, calcDay, curKnights } = props;
+  const { actions, setActions, calcDay } = props;
   const handleDelete = acToDelete => () => setActions(actions.filter(ac => ac.key !== acToDelete.key));
 
   const [ramenKnights, setRamenKnights] = useState([]);
 
   return actions.length ? (
     <Paper>
-      {actions.filter(action => action.type === "patrol").length ? (
+      {/* {actions.filter(action => action.type === "patrol").length ? (
         <Typography variant="h6" component="span" style={{ margin: 10, display: "flex", justfyText: "center" }}>
           필요순찰력: {requiredPatrol[actions.filter(action => action.type === "patrol").length]}
           &nbsp;&nbsp;&nbsp; 현재순찰력: {curKnights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}
         </Typography>
-      ) : null}
+      ) : null} */}
       <FormControl className={classes.formControl} style={{ display: "inline-block" }}>
         {actions.map(ac => {
-          const chipConf = {};
+          const chipConf = { chipColor: { margin: 2 } };
           switch (ac.type) {
             case "fight":
               chipConf.icon = <Icon.Gavel />;
@@ -66,6 +65,7 @@ export const ActionDay = props => {
             case "develop":
               chipConf.icon = <Icon.Build />;
               chipConf.label = regionNames[ac.regionNo];
+              chipConf.chipColor.background = "#8bc34a";
               break;
             case "build":
               chipConf.icon = <Icon.AccountBalance />;
@@ -75,9 +75,7 @@ export const ActionDay = props => {
               throw new Error(`unexpected ac.type: ${ac.type}`);
           }
 
-          return (
-            <Chip key={ac.key} onDelete={handleDelete(ac)} icon={chipConf.icon} label={chipConf.label} color={chipConf.color} style={{ margin: 2 }} />
-          );
+          return <Chip key={ac.key} onDelete={handleDelete(ac)} icon={chipConf.icon} label={chipConf.label} color={chipConf.color} style={chipConf.chipColor} />;
         })}
       </FormControl>
       <br />
@@ -93,11 +91,7 @@ export const ActionDay = props => {
               defaultValue={[]}
               filterSelectedOptions
               onChange={(_, value) => setRamenKnights(value)}
-              renderTags={(value, getTagProps) =>
-                value
-                  .filter((_, i) => i < 3)
-                  .map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)
-              }
+              renderTags={(value, getTagProps) => value.filter((_, i) => i < 3).map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)}
               renderInput={params => <TextField {...params} variant="outlined" label="라면가게" placeholder="라면가게" />}
             />
           </FormControl>

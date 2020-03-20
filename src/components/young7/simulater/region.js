@@ -72,10 +72,11 @@ export class Region {
 
   develop(data) {
     const { knights, action } = data;
+    const requiredDevelop = [10, 14, 22, 30];
     const knightSum = action.knights.reduce((sum, name) => sum + knights[name].develop, 0);
     const buildingBonus = this.buildings.reduce((acc, building) => acc + building.developPlus, 0);
 
-    if (!this.isClear || this.develop > knightSum + buildingBonus) return false;
+    if (!this.isClear || requiredDevelop[this.buildingMax - 4] > knightSum + buildingBonus) return false;
 
     if (this.buildingMax < 8) {
       this.buildingMax++;
