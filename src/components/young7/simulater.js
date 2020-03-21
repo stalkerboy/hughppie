@@ -13,9 +13,7 @@ import { SaveLoadAction } from "./saveloadaction";
 import { KnightData, BuildingData } from "./simulater/data";
 
 export const Simulater = () => {
-  let curWorld = new World();
-  let worlds = [lodash.cloneDeep(curWorld)];
-
+  const [curWorld, setCurWorld] = useState(new World());
   const [actions, setActions] = useState([]);
   const [allActions, setAllActions] = useState([]);
   const [curState, setCurState] = useState({
@@ -30,6 +28,7 @@ export const Simulater = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [curAction, setCurAction] = useState({ knights: [], type: "", typeDesc: "", target: "" });
 
+  let worlds = [lodash.cloneDeep(curWorld)];
   const addAction = action => {
     if (actions.length > 11) return;
 
@@ -78,7 +77,7 @@ export const Simulater = () => {
   };
 
   const backDay = day => {
-    curWorld = lodash.cloneDeep(worlds[day]);
+    setCurWorld(lodash.cloneDeep(worlds[day]));
     worlds = worlds.filter((_, i) => i <= day);
 
     setCurState({
@@ -119,7 +118,7 @@ export const Simulater = () => {
         })
         .includes(false);
       if (isVaild) {
-        curWorld = tempWorld;
+        setCurWorld(tempWorld);
         worlds = tempWorlds;
         setAllActions([...actions]);
         setActions(actions.splice(12 * day, actions.length));

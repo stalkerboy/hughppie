@@ -104,7 +104,6 @@ export const ActionItem = props => {
             id="regionNo"
             value={action.regionNo}
             onChange={e => {
-              // console.log(Object.keys(curWorld.knights).filter(name => curWorld.knights[name].gifts.length));
               setCurAction({ regionNo: e.target.value });
               return dispatchAction({ name: "setRegionNo", regionNo: e.target.value });
             }}
