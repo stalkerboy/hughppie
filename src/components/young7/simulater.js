@@ -156,6 +156,7 @@ export const Simulater = () => {
   const requiredDevelop = [10, 14, 22, 30];
   const patrolcount = curWorld.dayPatrolCount + actions.filter(action => action.type === "patrol").length;
   const developList = curWorld.regions.map((region, i) => region.buildingMax - 4 + actions.filter(action => action.regionNo === i && action.type === "develop").length);
+
   const requiredBuild = curAction.type === "build" && curAction.typeDesc ? BuildingData[curAction.typeDesc].requiredBuild : null;
 
   let tempWorld = lodash.cloneDeep(curWorld);

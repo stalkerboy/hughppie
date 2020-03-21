@@ -124,7 +124,7 @@ export const ActionItem = props => {
             id="type"
             value={action.type}
             onChange={e => {
-              setCurAction({ type: e.target.value });
+              setCurAction({ type: e.target.value, typeDesc: "", target: "" });
               return dispatchAction({ name: "setType", type: e.target.value });
             }}
           >
@@ -148,7 +148,7 @@ export const ActionItem = props => {
               id="typeDesc"
               value={action.typeDesc}
               onChange={e => {
-                setCurAction({ typeDesc: e.target.value });
+                setCurAction({ typeDesc: e.target.value, target: "" });
                 return dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value });
               }}
             >
