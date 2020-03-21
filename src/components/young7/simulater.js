@@ -141,17 +141,9 @@ export const Simulater = () => {
     }
   };
 
-  const saveData = () => {
-    const gifts = Object.keys(curWorld.knights)
-      .filter(name => curWorld.knights[name].gifts && curWorld.knights[name].gifts.length)
-      .reduce((acc, name) => {
-        acc[name] = curWorld.knights[name].gifts;
-        return acc;
-      }, {});
-    const ramen = curWorld.ramenHistory;
-
-    return JSON.stringify({ gifts, actions: [...allActions, ...actions], ramen });
-  };
+  // const saveData = async () => {
+  //   return JSON.stringify({ gifts, actions: [...allActions, ...actions], ramen });
+  // };
 
   const requiredPatrol = [10, 10, 10, 14, 14, 22, 22, 30, 36, 42, 50, 50];
   const requiredDevelop = [10, 14, 22, 30];
@@ -237,7 +229,7 @@ export const Simulater = () => {
         ))}
       </Paper>
       <ActionAlert alertOpen={alertOpen} setAlertOpen={setAlertOpen} text="실행할수 없는 행동" />
-      <SaveLoadAction loadData={loadData} saveData={saveData} />
+      <SaveLoadAction loadData={loadData} curWorld={curWorld} allActions={[...allActions, ...actions]} />
     </Container>
   );
 };

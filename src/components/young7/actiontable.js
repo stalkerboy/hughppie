@@ -43,7 +43,17 @@ export const ActionTable = props => {
                       </TableCell>
                       <TableCell padding="none" align="center" key={i + hour + "3"} style={{ width: 40 }}>
                         {action.type === "fight" ? "전투" : action.type === "build" ? "건설" : action.type === "patrol" ? "순찰" : "개발"}{" "}
-                        {action.typeDesc === "knights" ? action.typeDesc + " " + action.target : action.typeDesc}
+                        {action.typeDesc === "knights"
+                          ? action.typeDesc + " " + action.target
+                          : action.typeDesc === "normal"
+                          ? "일반순찰"
+                          : action.typeDesc === "knight"
+                          ? "호감공략"
+                          : action.typeDesc === "scena"
+                          ? "시나리오"
+                          : action.typeDesc === "score"
+                          ? "점수용"
+                          : action.typeDesc}
                       </TableCell>
                       <TableCell padding="none" align="left" key={i + hour + "5"}>
                         {action.knights.map((name, i) => (i === action.knights.length - 1 ? name : name + ", "))}

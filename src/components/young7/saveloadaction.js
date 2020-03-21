@@ -1,37 +1,48 @@
-import React, { useState } from "react";
-import { TextField, DialogTitle, DialogContent, Dialog, Button, DialogActions } from "@material-ui/core";
+import React from "react";
+import { Button } from "@material-ui/core";
 import * as Icon from "@material-ui/icons";
 import { ActionAlert } from "./actionalert";
 
 export function SaveLoadAction(props) {
-  const { saveData, loadData } = props;
+  const { curWorld, allActions, loadData } = props;
 
-  const [open, setOpen] = React.useState(false);
-  const [btnType, setbtnType] = React.useState("save");
-
-  const [textValue, setTextValue] = useState("");
   const [snackOpen, setSnackOpen] = React.useState(false);
 
-  const handleClickOpen = type => {
+  const handleClickOpen = async type => {
     if (type === "save") {
-      setTextValue(saveData());
+      const gifts = Object.keys(curWorld.knights)
+        .filter(name => curWorld.knights[name].gifts && curWorld.knights[name].gifts.length)
+        .reduce((acc, name) => {
+          acc[name] = curWorld.knights[name].gifts;
+          return acc;
+        }, {});
+      const ramen = curWorld.ramenHistory;
+
+      const fileName = "file";
+      const json = JSON.stringify({ gifts, actions: [...allActions], ramen });
+      const blob = new Blob([json], { type: "application/json" });
+      const href = await URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = href;
+      link.download = fileName + ".json";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     } else {
-      setTextValue("");
+      document.getElementById("selectImage").click();
     }
-    setbtnType(type);
-    setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const onClickLoad = strData => {
-    if (loadData(strData)) {
-      setOpen(false);
-    } else {
-      setSnackOpen(true);
-    }
+  const setFile = event => {
+    const fileReader = new FileReader();
+    fileReader.onloadend = e => {
+      const content = e.target.result;
+      const isValid = loadData(content);
+      if (!isValid) {
+        setSnackOpen(true);
+      }
+    };
+    fileReader.readAsText(event.target.files[0]);
   };
 
   return (
@@ -42,42 +53,8 @@ export function SaveLoadAction(props) {
       <Button variant="outlined" color="primary" startIcon={<Icon.CloudUpload />} style={{ margin: 15, width: 160 }} onClick={() => handleClickOpen("load")}>
         Load
       </Button>
+      <input type="file" id="selectImage" onChange={setFile} hidden></input>
       <ActionAlert alertOpen={snackOpen} setAlertOpen={setSnackOpen} text="잘못된 데이터 파일입니다." />
-
-      <Dialog open={open} onClose={handleClose} aria-labelledby="scroll-dialog-title" aria-describedby="scroll-dialog-description">
-        <div style={{ width: 500 }} />
-        <DialogTitle id="scroll-dialog-title">{btnType === "save" ? "저장하기" : "불러오기"}</DialogTitle>
-        <DialogContent dividers={true}>
-          {btnType === "save" ? (
-            <TextField
-              label="저장할데이터"
-              multiline
-              rows="40"
-              value={textValue}
-              variant="outlined"
-              InputProps={{
-                readOnly: true
-              }}
-              fullWidth
-            />
-          ) : (
-            <div>
-              <TextField label="불러올데이터" multiline rows="40" variant="outlined" onChange={e => setTextValue(e.target.value)} fullWidth />
-            </div>
-          )}
-        </DialogContent>
-        <DialogActions>
-          {btnType !== "save" ? (
-            <Button onClick={() => onClickLoad(textValue)} color="primary">
-              LOAD
-            </Button>
-          ) : null}
-
-          <Button onClick={handleClose} color="primary">
-            닫기
-          </Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 }
