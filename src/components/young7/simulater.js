@@ -158,7 +158,8 @@ export const Simulater = () => {
   return (
     <Container maxWidth="sm">
       <br />
-      <div style={{ display: "flex", width: "150%", justifyItems: "right", justifyContent: "center" }}>
+      <div style={{ display: "flex" }}>
+        <div style={{ display: "flex", marginLeft: 150 }} />
         <img alt="환력" src="/img/spirit.jpg" />
         <Typography component="h6" variant="h6">
           &nbsp;{tempWorld.getSpirit()}&nbsp;&nbsp;
@@ -211,15 +212,11 @@ export const Simulater = () => {
           </Badge>
         </Tooltip>
       </div>
-
       <ActionItem addAction={addAction} curWorld={curWorld} setCurAction={cur => setCurAction({ ...curAction, ...cur })} />
-
       <ActionDay actions={actions} setActions={setActions} calcDay={calcDay} />
-
       <Paper>
         <ConditionDialog allActions={[...allActions, ...actions]} />
       </Paper>
-
       <ActionResult curState={curState} />
       <br />
       {storeWorld.length ? "일차 되돌리기" : null}
