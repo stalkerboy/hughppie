@@ -5,40 +5,14 @@ import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import FormControl from "@material-ui/core/FormControl";
-import { ActionResult } from "./actionresult";
-import lodash from "lodash";
+import { ActionTable } from "./actiontable";
 
 export default function ConditionDialog(props) {
-  const { curWorld, actions, transact } = props;
+  const { allActions } = props;
   const [open, setOpen] = React.useState(false);
-  const [curState, setCurState] = React.useState({
-    day: 0,
-    hour: 0,
-    spirit: 0,
-    science: 0,
-    information: 0,
-    knights: [],
-    region: []
-  });
 
   const handleClickOpen = () => {
-    if (!actions.length) return;
-
-    const tempWorld = lodash.cloneDeep(curWorld);
-    const tempActions = lodash.cloneDeep(actions);
-
-    transact(tempWorld, tempActions);
-
-    setCurState({
-      day: tempWorld.getDay(),
-      hour: tempWorld.getHour(),
-      spirit: tempWorld.getSpirit(),
-      science: tempWorld.getScience(),
-      information: tempWorld.getInformation(),
-      knights: tempWorld.getKnight(),
-      region: tempWorld.getRegion()
-    });
-
+    if (!allActions.length) return;
     setOpen(true);
   };
 
@@ -50,13 +24,13 @@ export default function ConditionDialog(props) {
     <>
       <FormControl style={{ display: "flex" }}>
         <Button color="primary" size="large" onClick={handleClickOpen}>
-          현재상태확인
+          행동확인
         </Button>
       </FormControl>
       <Dialog open={open} onClose={handleClose} aria-labelledby="scroll-dialog-title" aria-describedby="scroll-dialog-description">
-        <DialogTitle id="scroll-dialog-title">현재상태확인</DialogTitle>
+        <DialogTitle id="scroll-dialog-title">행동확인</DialogTitle>
         <DialogContent dividers={true}>
-          <ActionResult curState={curState} />
+          <ActionTable allActions={allActions} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

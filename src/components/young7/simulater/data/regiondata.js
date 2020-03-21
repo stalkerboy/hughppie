@@ -40,7 +40,7 @@ export const RegionData = [
   },
 
   {
-    name: "해저연구소",
+    name: "연구소",
     buildingMax: 4,
     buildings: [],
     patrolCount: 0,

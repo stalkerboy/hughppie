@@ -97,7 +97,7 @@ export const ActionDay = props => {
           </FormControl>
           <FormControl className={classes.formControl} style={{ display: "flex" }}>
             <Button variant="outlined" color="primary" startIcon={<Icon.CheckCircle />} onClick={() => calcDay(actions, ramenKnights)}>
-              계산
+              다음날로 이동
             </Button>
             <br />
           </FormControl>

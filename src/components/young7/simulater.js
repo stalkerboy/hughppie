@@ -213,11 +213,9 @@ export const Simulater = () => {
 
       <ActionDay actions={actions} setActions={setActions} calcDay={calcDay} />
 
-      {actions.length ? (
-        <Paper>
-          <ConditionDialog curWorld={curWorld} actions={actions} transact={transact} />
-        </Paper>
-      ) : null}
+      <Paper>
+        <ConditionDialog allActions={[...allActions, ...actions]} />
+      </Paper>
 
       <ActionResult curState={curState} />
       <br />
