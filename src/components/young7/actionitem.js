@@ -56,9 +56,7 @@ export const ActionItem = props => {
   const classes = useStyles();
 
   const [action, dispatchAction] = useReducer(actionReducer, initialActionState);
-  const { addAction, curWorld, setCurKnights, setRequiredStat } = props;
-
-  const requiredDevelop = [10, 14, 22, 30];
+  const { addAction, curWorld, setCurAction } = props;
 
   const onClickAdd = () => {
     if (!action.type || (action.regionNo !== 0 && !action.regionNo) || !action.knights) {
@@ -86,9 +84,8 @@ export const ActionItem = props => {
             defaultValue={[]}
             filterSelectedOptions
             onChange={(_, value) => {
-              dispatchAction({ name: "setKnights", knights: value });
-              setCurKnights(value);
-              return true;
+              setCurAction({ knights: value });
+              return dispatchAction({ name: "setKnights", knights: value });
             }}
             renderTags={(value, getTagProps) => value.filter((v, i) => i < 3).map((option, index) => <Chip variant="outlined" color="primary" label={option} {...getTagProps({ index })} />)}
             renderInput={params => <TextField {...params} variant="outlined" label="신기사" placeholder="신기사" />}
@@ -107,7 +104,8 @@ export const ActionItem = props => {
             id="regionNo"
             value={action.regionNo}
             onChange={e => {
-              setRequiredStat({ develop: requiredDevelop[curWorld.regions[e.target.value].buildingMax - 4] });
+              // console.log(Object.keys(curWorld.knights).filter(name => curWorld.knights[name].gifts.length));
+              setCurAction({ regionNo: e.target.value });
               return dispatchAction({ name: "setRegionNo", regionNo: e.target.value });
             }}
           >
@@ -122,7 +120,15 @@ export const ActionItem = props => {
           <InputLabel id="select-action-type" style={{ background: "white" }}>
             타입
           </InputLabel>
-          <Select labelId="select-action-type" id="type" value={action.type} onChange={e => dispatchAction({ name: "setType", type: e.target.value })}>
+          <Select
+            labelId="select-action-type"
+            id="type"
+            value={action.type}
+            onChange={e => {
+              setCurAction({ type: e.target.value });
+              return dispatchAction({ name: "setType", type: e.target.value });
+            }}
+          >
             {Object.keys(typeList).map(key => (
               <MenuItem key={key} value={typeList[key]}>
                 {key}
@@ -137,7 +143,16 @@ export const ActionItem = props => {
             <InputLabel id="select-action-typedesc" htmlFor="grouped-select" style={{ background: "white" }}>
               타입 상세
             </InputLabel>
-            <Select native labelId="select-action-typedesc" id="typeDesc" value={action.typeDesc} onChange={e => dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value })}>
+            <Select
+              native
+              labelId="select-action-typedesc"
+              id="typeDesc"
+              value={action.typeDesc}
+              onChange={e => {
+                setCurAction({ typeDesc: e.target.value });
+                return dispatchAction({ name: "setTypeDesc", typeDesc: e.target.value });
+              }}
+            >
               <option key={0} label={""}></option>
               {action.type === "patrol"
                 ? Object.keys(typeDescList[action.type]).map((name, i) => (
@@ -163,7 +178,15 @@ export const ActionItem = props => {
               <InputLabel id="select-action-target" style={{ background: "white" }}>
                 대상
               </InputLabel>
-              <Select labelId="select-action-target" id="target" value={action.target} onChange={e => dispatchAction({ name: "setTarget", target: e.target.value })}>
+              <Select
+                labelId="select-action-target"
+                id="target"
+                value={action.target}
+                onChange={e => {
+                  setCurAction({ target: e.target.value });
+                  return dispatchAction({ name: "setTarget", target: e.target.value });
+                }}
+              >
                 {action.typeDesc === "knight"
                   ? action.knights.map(name => (
                       <MenuItem key={name} value={name}>

@@ -23,6 +23,7 @@ export default function ConditionDialog(props) {
 
   const handleClickOpen = () => {
     if (!actions.length) return;
+
     const tempWorld = lodash.cloneDeep(curWorld);
     const tempActions = lodash.cloneDeep(actions);
 

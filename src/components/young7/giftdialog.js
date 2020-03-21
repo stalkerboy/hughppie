@@ -37,7 +37,7 @@ export default function GiftDialog(props) {
           <div style={{ display: "flex", width: 400 }} />
           <FormControl style={{ margin: 15, display: "flex" }}>
             <Autocomplete
-              id="tags-outlined-gift"
+              id="tags-outlined-gift-knights"
               options={knightsNames.sort()}
               defaultValue={""}
               filterSelectedOptions

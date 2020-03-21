@@ -4,7 +4,7 @@ import * as Icon from "@material-ui/icons";
 import { ActionAlert } from "./actionalert";
 
 export function SaveLoadAction(props) {
-  const { actions, gifts, ramen, loadData } = props;
+  const { saveData, loadData } = props;
 
   const [open, setOpen] = React.useState(false);
   const [btnType, setbtnType] = React.useState("save");
@@ -14,7 +14,7 @@ export function SaveLoadAction(props) {
 
   const handleClickOpen = type => {
     if (type === "save") {
-      setTextValue(JSON.stringify({ gifts: gifts, actions, ramen }));
+      setTextValue(saveData());
     } else {
       setTextValue("");
     }
@@ -39,13 +39,7 @@ export function SaveLoadAction(props) {
       <Button variant="outlined" color="primary" startIcon={<Icon.Save />} style={{ margin: 15, width: 160 }} onClick={() => handleClickOpen("save")}>
         Save
       </Button>
-      <Button
-        variant="outlined"
-        color="primary"
-        startIcon={<Icon.CloudUpload />}
-        style={{ margin: 15, width: 160 }}
-        onClick={() => handleClickOpen("load")}
-      >
+      <Button variant="outlined" color="primary" startIcon={<Icon.CloudUpload />} style={{ margin: 15, width: 160 }} onClick={() => handleClickOpen("load")}>
         Load
       </Button>
       <ActionAlert alertOpen={snackOpen} setAlertOpen={setSnackOpen} text="잘못된 데이터 파일입니다." />
