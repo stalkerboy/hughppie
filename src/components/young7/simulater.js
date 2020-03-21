@@ -159,7 +159,7 @@ export const Simulater = () => {
     <Container maxWidth="sm">
       <br />
       <div style={{ display: "flex" }}>
-        <div style={{ display: "flex", marginLeft: 150 }} />
+        <div style={{ display: "flex", marginLeft: 200 }} />
         <img alt="환력" src="/img/spirit.jpg" />
         <Typography component="h6" variant="h6">
           &nbsp;{tempWorld.getSpirit()}&nbsp;&nbsp;
@@ -193,7 +193,7 @@ export const Simulater = () => {
             <Icon.Build color="primary" />
           </Badge>
         </Tooltip>
-        &nbsp;&nbsp; &nbsp;합계 &nbsp;
+        <div style={{ marginLeft: 70 }}>합계</div> &nbsp;
         <Tooltip title="순찰">
           <Badge color="secondary" badgeContent={curAction.knights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}>
             <Icon.Motorcycle color="primary" />
