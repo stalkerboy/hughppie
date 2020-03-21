@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Container, Typography, Chip, Paper, Avatar, Badge } from "@material-ui/core";
+import { Container, Typography, Chip, Paper, Badge, Tooltip } from "@material-ui/core";
 import { ActionItem } from "./actionitem";
 import { ActionDay } from "./actionday";
 import { ActionAlert } from "./actionalert";
 import { ActionResult } from "./actionresult";
 import { World } from "./simulater/world";
+import * as Icon from "@material-ui/icons";
 
 import ConditionDialog from "./conditiondialog";
 
@@ -160,55 +161,65 @@ export const Simulater = () => {
   const requiredBuild = curAction.type === "build" && curAction.typeDesc ? BuildingData[curAction.typeDesc].requiredBuild : null;
 
   let tempWorld = lodash.cloneDeep(curWorld);
-  const isNotVaild = actions.map(action => tempWorld.processAction(action)).includes(false);
+  actions.map(action => tempWorld.processAction(action)).includes(false);
 
   return (
     <Container maxWidth="sm">
-      <Typography component="h6" variant="h6" style={{ display: "flex" }}>
-        <br />
-        {isNotVaild ? null : `${tempWorld.getDay()} 일차 과학력 : ${tempWorld.getScience()} 환력 : ${tempWorld.getSpirit()} 정보력 : ${tempWorld.getInformation()}`}
-      </Typography>
-      <div style={{ display: "flex" }}>
-        <Typography component="h6" variant="h6" style={{ display: "flex", verticalAlign: "center", marginTop: 10, marginLeft: 15 }}>
-          신기사합:
+      <br />
+      <div style={{ display: "flex", width: "150%", justifyItems: "right", justifyContent: "center" }}>
+        <img alt="환력" src="/img/spirit.jpg" />
+        <Typography component="h6" variant="h6">
+          &nbsp;{tempWorld.getSpirit()}&nbsp;&nbsp;
         </Typography>
-        <Badge overlap="circle" badgeContent="순찰">
-          <Avatar alt="순찰치" style={{ background: "#3f51b5", display: "flex", margin: 7 }}>
-            {curAction.knights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}
-          </Avatar>
-        </Badge>
-        <Badge overlap="circle" badgeContent="건설">
-          <Avatar alt="건설치" style={{ display: "flex", margin: 7 }}>
-            {curAction.knights.reduce((acc, name) => acc + KnightData[name].build, 0)}
-          </Avatar>
-        </Badge>
-        <Badge overlap="circle" badgeContent="개발">
-          <Avatar alt="개발치" style={{ background: "#8bc34a", display: "flex", margin: 7 }}>
-            {curAction.knights.reduce((acc, name) => acc + KnightData[name].develop, 0)}
-          </Avatar>
-        </Badge>
+        <img alt="과학력" src="/img/science.jpg" />
+        <Typography component="h6" variant="h6">
+          &nbsp;{tempWorld.getScience()}&nbsp;&nbsp;
+        </Typography>
+        <img alt="정보력" src="/img/inform.jpg" />
+        <Typography component="h6" variant="h6">
+          &nbsp;{tempWorld.getInformation()}&nbsp;&nbsp;
+        </Typography>
+      </div>
+      <br />
+      <div style={{ display: "flex" }}>
+        필요 &nbsp;
+        <Tooltip title="순찰">
+          <Badge color="secondary" badgeContent={requiredPatrol[patrolcount]}>
+            <Icon.Motorcycle color="primary" />
+          </Badge>
+        </Tooltip>
+        &nbsp;&nbsp;&nbsp;
+        <Tooltip title="건설">
+          <Badge color="secondary" badgeContent={requiredBuild}>
+            <Icon.AccountBalance color="primary" />
+          </Badge>
+        </Tooltip>
+        &nbsp;&nbsp;&nbsp;
+        <Tooltip title="개발">
+          <Badge color="secondary" badgeContent={requiredDevelop[developList[curAction.regionNo]]}>
+            <Icon.Build color="primary" />
+          </Badge>
+        </Tooltip>
+        &nbsp;&nbsp; &nbsp;합계 &nbsp;
+        <Tooltip title="순찰">
+          <Badge color="secondary" badgeContent={curAction.knights.reduce((acc, name) => acc + KnightData[name].patrol, 0)}>
+            <Icon.Motorcycle color="primary" />
+          </Badge>
+        </Tooltip>
+        &nbsp;&nbsp;&nbsp;
+        <Tooltip title="건설">
+          <Badge color="secondary" badgeContent={curAction.knights.reduce((acc, name) => acc + KnightData[name].build, 0)}>
+            <Icon.AccountBalance color="primary" />
+          </Badge>
+        </Tooltip>
+        &nbsp;&nbsp;&nbsp;
+        <Tooltip title="개발">
+          <Badge color="secondary" badgeContent={curAction.knights.reduce((acc, name) => acc + KnightData[name].develop, 0)}>
+            <Icon.Build color="primary" />
+          </Badge>
+        </Tooltip>
       </div>
 
-      <div style={{ display: "flex", alignContent: "center" }}>
-        <Typography component="h6" variant="h6" style={{ display: "flex", verticalAlign: "center", marginTop: 10, marginLeft: 15 }}>
-          필요수치:
-        </Typography>
-        <Badge overlap="circle" badgeContent="순찰">
-          <Avatar alt="순찰치" style={{ background: "#3f51b5", display: "flex", margin: 7 }}>
-            {requiredPatrol[patrolcount]}
-          </Avatar>
-        </Badge>
-        <Badge overlap="circle" badgeContent="건설">
-          <Avatar alt="건설치" style={{ display: "flex", margin: 7 }}>
-            {requiredBuild}
-          </Avatar>
-        </Badge>
-        <Badge overlap="circle" badgeContent="개발">
-          <Avatar alt="개발치" style={{ background: "#8bc34a", display: "flex", margin: 7 }}>
-            {requiredDevelop[developList[curAction.regionNo]]}
-          </Avatar>
-        </Badge>
-      </div>
       <ActionItem addAction={addAction} curWorld={curWorld} setCurAction={cur => setCurAction({ ...curAction, ...cur })} />
 
       <ActionDay actions={actions} setActions={setActions} calcDay={calcDay} />

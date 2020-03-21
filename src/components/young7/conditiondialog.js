@@ -20,7 +20,7 @@ export default function ConditionDialog(props) {
     setOpen(false);
   };
 
-  return (
+  return allActions.length ? (
     <>
       <FormControl style={{ display: "flex" }}>
         <Button color="primary" size="large" onClick={handleClickOpen}>
@@ -39,5 +39,5 @@ export default function ConditionDialog(props) {
         </DialogActions>
       </Dialog>
     </>
-  );
+  ) : null;
 }
