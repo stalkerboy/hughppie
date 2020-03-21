@@ -28,7 +28,7 @@ export const Simulater = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [curAction, setCurAction] = useState({ knights: [], type: "", typeDesc: "", target: "" });
 
-  let worlds = [lodash.cloneDeep(curWorld)];
+  const [worlds, setWorlds] = useState([new World()]);
   const addAction = action => {
     if (actions.length > 11) return;
 
@@ -49,7 +49,7 @@ export const Simulater = () => {
     if (transact(curWorld, actions)) {
       curWorld.eatRamen(ramenKnights);
       curWorld.processDay();
-      worlds.push(lodash.cloneDeep(curWorld));
+      setWorlds([...worlds, lodash.cloneDeep(curWorld)]);
 
       setCurState({
         day: curWorld.getDay(),
@@ -78,7 +78,7 @@ export const Simulater = () => {
 
   const backDay = day => {
     setCurWorld(lodash.cloneDeep(worlds[day]));
-    worlds = worlds.filter((_, i) => i <= day);
+    setWorlds(worlds.filter((_, i) => i <= day));
 
     setCurState({
       day: curWorld.getDay(),
@@ -119,7 +119,7 @@ export const Simulater = () => {
         .includes(false);
       if (isVaild) {
         setCurWorld(tempWorld);
-        worlds = tempWorlds;
+        setWorlds(tempWorlds);
         setAllActions([...actions]);
         setActions(actions.splice(12 * day, actions.length));
         setCurState({

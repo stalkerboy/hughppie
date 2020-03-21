@@ -600,21 +600,6 @@ export const KnightData = {
     sex: "male"
   },
 
-  유에: {
-    name: "유에",
-    patrol: 2,
-    build: 5,
-    develop: 14,
-    clearValue: [
-      { regionNo: 0, requiredFeeling: 101, addFeeling: 0 },
-      { regionNo: 0, requiredFeeling: 101, addFeeling: 0 },
-      { regionNo: 0, requiredFeeling: 101, addFeeling: 0 },
-      { regionNo: 0, requiredFeeling: 101, addFeeling: 0 },
-      { regionNo: 0, requiredFeeling: 101, addFeeling: 0 }
-    ],
-    sex: "male"
-  },
-
   체리A: {
     name: "체리A",
     patrol: 10,
@@ -767,21 +752,6 @@ export const KnightData = {
     sex: "female"
   },
 
-  알드리치: {
-    name: "알드리치",
-    patrol: 11,
-    build: 4,
-    develop: 6,
-    clearValue: [
-      { regionNo: 1, requiredFeeling: 20, addFeeling: 10 },
-      { regionNo: 0, requiredFeeling: 40, addFeeling: 10 },
-      { regionNo: 2, requiredFeeling: 60, addFeeling: 10 },
-      { regionNo: 2, requiredFeeling: 80, addFeeling: 10 },
-      { regionNo: 1, requiredFeeling: 100, addFeeling: 0 }
-    ],
-    sex: "male"
-  },
-
   플로라: {
     name: "플로라",
     patrol: 2,
@@ -827,21 +797,6 @@ export const KnightData = {
     sex: "female"
   },
 
-  유리: {
-    name: "유리",
-    patrol: 5,
-    build: 10,
-    develop: 6,
-    clearValue: [
-      { regionNo: 0, requiredFeeling: 10, addFeeling: 10 },
-      { regionNo: 0, requiredFeeling: 30, addFeeling: 10 },
-      { regionNo: 0, requiredFeeling: 50, addFeeling: 10 },
-      { regionNo: 0, requiredFeeling: 60, addFeeling: 10 },
-      { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
-    ],
-    sex: "female"
-  },
-
   라비: {
     name: "라비",
     patrol: 5,
@@ -852,36 +807,6 @@ export const KnightData = {
       { regionNo: 2, requiredFeeling: 50, addFeeling: 5 },
       { regionNo: 3, requiredFeeling: 70, addFeeling: 10 },
       { regionNo: 6, requiredFeeling: 80, addFeeling: 20 },
-      { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
-    ],
-    sex: "male"
-  },
-
-  라비: {
-    name: "라비",
-    patrol: 5,
-    build: 10,
-    develop: 6,
-    clearValue: [
-      { regionNo: 1, requiredFeeling: 30, addFeeling: 5 },
-      { regionNo: 2, requiredFeeling: 50, addFeeling: 5 },
-      { regionNo: 3, requiredFeeling: 70, addFeeling: 10 },
-      { regionNo: 6, requiredFeeling: 80, addFeeling: 20 },
-      { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
-    ],
-    sex: "male"
-  },
-
-  웨이디: {
-    name: "웨이디",
-    patrol: 7,
-    build: 5,
-    develop: 6,
-    clearValue: [
-      { regionNo: 1, requiredFeeling: 20, addFeeling: 10 },
-      { regionNo: 1, requiredFeeling: 40, addFeeling: 10 },
-      { regionNo: 1, requiredFeeling: 60, addFeeling: 10 },
-      { regionNo: 1, requiredFeeling: 80, addFeeling: 10 },
       { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
     ],
     sex: "male"
@@ -1193,21 +1118,6 @@ export const KnightData = {
     sex: "male"
   },
 
-  이스카리오: {
-    name: "이스카리오",
-    patrol: 6,
-    build: 3,
-    develop: 12,
-    clearValue: [
-      { regionNo: 1, requiredFeeling: 20, addFeeling: 10 },
-      { regionNo: 5, requiredFeeling: 40, addFeeling: 10 },
-      { regionNo: 4, requiredFeeling: 60, addFeeling: 10 },
-      { regionNo: 3, requiredFeeling: 80, addFeeling: 10 },
-      { regionNo: 0, requiredFeeling: 100, addFeeling: 0 }
-    ],
-    sex: "male"
-  },
-
   핫카: {
     name: "핫카",
     patrol: 9,
@@ -1222,22 +1132,6 @@ export const KnightData = {
     ],
     sex: "female"
   },
-
-  크루노: {
-    name: "크루노",
-    patrol: 10,
-    build: 5,
-    develop: 6,
-    clearValue: [
-      { regionNo: 5, requiredFeeling: 30, addFeeling: 5 },
-      { regionNo: 1, requiredFeeling: 50, addFeeling: 5 },
-      { regionNo: 3, requiredFeeling: 70, addFeeling: 10 },
-      { regionNo: 3, requiredFeeling: 80, addFeeling: 20 },
-      { regionNo: 3, requiredFeeling: 100, addFeeling: 0 }
-    ],
-    sex: "male"
-  },
-
   크루노: {
     name: "크루노",
     patrol: 10,

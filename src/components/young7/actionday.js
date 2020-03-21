@@ -85,7 +85,7 @@ export const ActionDay = props => {
             <Autocomplete
               multiple
               id="tags-outlined"
-              options={knightsNames}
+              options={knightsNames.sort()}
               getOptionLabel={option => option}
               getOptionSelected={name => ramenKnights.length >= 3 || ramenKnights.includes(name)}
               defaultValue={[]}
